@@ -1,0 +1,245 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  password     String
+  phone        String?
+  role         String   @default("client") // 'client', 'provider', 'admin'
+  isProvider   Boolean  @default(false)
+  bio          String?
+  profileImage String?
+  
+  // Identity & Compliance
+  document      String   @unique // CPF or CNPJ (numbers only)
+  documentType  String   // 'CPF' or 'CNPJ'
+  isVerified    Boolean  @default(false)
+  verificationStatus String @default("NOT_STARTED") // 'NOT_STARTED', 'PENDING', 'APPROVED', 'REJECTED'
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  services        Service[]
+  bookingsAsClient Booking[] @relation("ClientBookings")
+  bookingsAsProvider Booking[] @relation("ProviderBookings")
+  identityVerification IdentityVerification?
+  reviews         Review[]
+  favorites       Favorite[]
+  reports         Report[]
+
+  @@map("users")
+}
+
+model IdentityVerification {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  
+  frontImageUrl String?
+  backImageUrl  String?
+  selfieUrl     String?
+  
+  adminNotes    String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  imageUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  services Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  priceUnit   String   @default("FIXED") // HOURLY, DAILY, PER_PERSON, FIXED, PER_METRIC
+  location    String
+  address     String   @default("") // Full address
+  addressComplement String? // Apartment, Suite, etc.
+  addressZipCode String?
+  addressStreet  String?
+  addressNumber  String?
+  addressNeighborhood String?
+  addressCity    String?
+  addressState   String?
+  latitude    Float
+  longitude   Float
+  images      String   // JSON array stored as string
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  type        String   @default("PRESENTIAL") // PRESENTIAL, DIGITAL
+  hostYears   Int      @default(1)
+  hostLanguages String @default("[\"Português\"]") // JSON array
+  hostJob     String   @default("Profissional")
+  highlights  String   @default("[]") // JSON array
+  
+  // Scheduling Configuration
+  duration            Int     @default(60) // Duration in minutes (e.g., 60 for 1 hour)
+  bufferTime          Int     @default(0)  // Rest time between appointments in minutes
+  availability        String? // JSON schedule: { "monday": { "start": "08:00", "end": "19:00", "active": true }, ... }
+  
+  // Financial Configuration
+  platformFeePercent  Float   @default(12.0) // Platform fee percentage
+  paymentMethods      String  @default("[\"PIX\",\"CREDIT_CARD\"]") // JSON array of accepted payment methods
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign keys
+  categoryId String
+  userId     String
+
+  // Relations
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  provider User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+  reviews  Review[]
+  favorites Favorite[]
+  reports   Report[]
+
+  @@map("services")
+  @@index([categoryId])
+  @@index([userId])
+  @@index([location])
+}
+
+model Booking {
+  id               String   @id @default(cuid())
+  startDate        DateTime
+  endDate          DateTime
+  totalPrice       Float
+  serviceFee       Float    // 12% of total
+  providerEarnings Float    // totalPrice - serviceFee
+  status           String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Foreign keys
+  serviceId String
+  clientId  String
+  providerId String
+
+  // Relations
+  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  client   User    @relation("ClientBookings", fields: [clientId], references: [id], onDelete: Cascade)
+  provider User    @relation("ProviderBookings", fields: [providerId], references: [id], onDelete: Cascade)
+  payment  Payment?
+
+  @@map("bookings")
+  @@index([serviceId])
+  @@index([clientId])
+  @@index([providerId])
+  @@index([status])
+  @@index([startDate])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Float
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign keys
+  serviceId String
+  userId    String
+
+  // Relations
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+  @@index([serviceId])
+  @@index([userId])
+}
+
+model Payment {
+  id             String   @id @default(cuid())
+  amount         Float    // Total transaction amount
+  method         String   // PIX, CREDIT_CARD, DEBIT_CARD, ON_SITE
+  status         String   @default("PENDING") // PENDING, PAID, FAILED, REFUNDED, CANCELLED
+  feeAmount      Float    // Platform fee amount
+  providerAmount Float    // Amount that goes to provider
+  
+  // Payment Gateway Details (optional, for integration)
+  transactionId  String?  // External payment gateway transaction ID
+  paidAt         DateTime?
+  refundedAt     DateTime?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Foreign key (1-1 with Booking)
+  bookingId String @unique
+
+  // Relations
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+  @@index([bookingId])
+  @@index([status])
+  @@index([method])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Foreign keys
+  serviceId String
+  userId    String
+
+  // Relations
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, serviceId]) // Prevent duplicate favorites
+  @@map("favorites")
+  @@index([userId])
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reason      String
+  description String
+  status      String   @default("PENDING") // PENDING, RESOLVED, REJECTED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign keys
+  serviceId  String
+  reporterId String
+
+  // Relations
+  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  reporter User    @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+  @@index([serviceId])
+  @@index([reporterId])
+  @@index([status])
+}

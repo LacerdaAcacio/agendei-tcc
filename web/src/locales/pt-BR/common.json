@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Agendei"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Entre na sua conta para gerenciar seus agendamentos",
+      "emailLabel": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "passwordLabel": "Senha",
+      "submitButton": "Entrar",
+      "submittingButton": "Entrando...",
+      "noAccount": "Não tem uma conta?",
+      "registerLink": "Registre-se"
+    },
+    "register": {
+      "title": "Criar Conta",
+      "description": "Preencha os dados abaixo para se registrar",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Seu nome completo",
+      "emailLabel": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "phoneLabel": "Telefone",
+      "phonePlaceholder": "(00) 00000-0000",
+      "roleLabel": "Tipo de Conta",
+      "roleClient": "Cliente",
+      "roleProvider": "Prestador de Serviço",
+      "passwordLabel": "Senha",
+      "confirmPasswordLabel": "Confirmar Senha",
+      "submitButton": "Registrar",
+      "submittingButton": "Criando conta...",
+      "hasAccount": "Já tem uma conta?",
+      "loginLink": "Faça login"
+    }
+  },
+  "appointments": {
+    "new": {
+      "title": "Novo Agendamento",
+      "description": "Preencha os detalhes do serviço",
+      "serviceNameLabel": "Nome do Serviço",
+      "serviceNamePlaceholder": "Ex: Corte de Cabelo",
+      "dateLabel": "Data e Hora",
+      "durationLabel": "Duração (minutos)",
+      "descriptionLabel": "Descrição",
+      "descriptionLabelOptional": "Descrição (Opcional)",
+      "descriptionPlaceholder": "Detalhes adicionais...",
+      "cancelButton": "Cancelar",
+      "submitButton": "Confirmar Agendamento",
+      "submittingButton": "Agendando..."
+    },
+    "details": {
+      "title": "Detalhes do Agendamento",
+      "service": "Serviço",
+      "date": "Data e Hora",
+      "duration": "Duração",
+      "minutes": "minutos",
+      "description": "Descrição",
+      "status": "Status",
+      "backButton": "Voltar"
+    },
+    "status": {
+      "pending": "Pendente",
+      "confirmed": "Confirmado",
+      "cancelled": "Cancelado",
+      "completed": "Concluído"
+    }
+  },
+  "dashboard": {
+    "title": "Meus Agendamentos",
+    "newAppointment": "Novo Agendamento",
+    "noAppointments": "Nenhum agendamento encontrado",
+    "loading": "Carregando..."
+  },
+  "header": {
+    "logout": "Sair",
+    "theme": {
+      "light": "Modo Claro",
+      "dark": "Modo Escuro",
+      "toggle": "Alternar tema"
+    },
+    "language": {
+      "select": "Selecionar idioma",
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "validation": {
+    "required": "Campo obrigatório",
+    "email": {
+      "invalid": "Email inválido"
+    },
+    "password": {
+      "minLength": "A senha deve ter no mínimo {{min}} caracteres",
+      "mismatch": "As senhas não conferem",
+      "strength": {
+        "weak": "Fraca",
+        "medium": "Média",
+        "strong": "Forte"
+      }
+    },
+    "name": {
+      "minLength": "Nome deve ter no mínimo {{min}} caracteres",
+      "invalid": "Nome deve conter apenas letras e espaços"
+    },
+    "phone": {
+      "invalid": "Telefone inválido. Use o formato (99) 99999-9999",
+      "required": "Telefone é obrigatório"
+    },
+    "service": {
+      "minLength": "O serviço deve ter no mínimo {{min}} caracteres"
+    },
+    "date": {
+      "future": "A data deve ser futura",
+      "past": "Não é possível selecionar datas passadas"
+    },
+    "duration": {
+      "min": "A duração mínima é de {{min}} minutos"
+    }
+  },
+  "errors": {
+    "generic": "Ocorreu um erro. Tente novamente.",
+    "loginFailed": "Erro ao fazer login. Verifique suas credenciais.",
+    "registerFailed": "Erro ao criar conta. Tente novamente.",
+    "appointmentFailed": "Erro ao criar agendamento.",
+    "loadFailed": "Erro ao carregar dados."
+  }
+}

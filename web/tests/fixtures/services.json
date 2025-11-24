@@ -1,0 +1,51 @@
+{
+  "status": "success",
+  "data": {
+    "services": [
+      {
+        "id": "service-1",
+        "title": "Limpeza Residencial Premium",
+        "description": "Limpeza completa e detalhada para sua casa.",
+        "price": 150,
+        "priceUnit": "PER_VISIT",
+        "duration": 240,
+        "location": "São Paulo, SP",
+        "rating": 4.8,
+        "reviewCount": 124,
+        "images": ["https://images.unsplash.com/photo-1581578731117-104f8a746950?w=800&q=80"],
+        "provider": {
+          "id": "provider-1",
+          "name": "Maria Silva",
+          "avatar": "https://i.pravatar.cc/150?u=maria"
+        },
+        "category": {
+          "id": "cleaning",
+          "name": "Limpeza",
+          "icon": "Sparkles"
+        }
+      },
+      {
+        "id": "service-2",
+        "title": "Manutenção Elétrica",
+        "description": "Reparos e instalações elétricas em geral.",
+        "price": 120,
+        "priceUnit": "PER_HOUR",
+        "duration": 60,
+        "location": "São Paulo, SP",
+        "rating": 4.9,
+        "reviewCount": 85,
+        "images": ["https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80"],
+        "provider": {
+          "id": "provider-2",
+          "name": "João Santos",
+          "avatar": "https://i.pravatar.cc/150?u=joao"
+        },
+        "category": {
+          "id": "maintenance",
+          "name": "Manutenção",
+          "icon": "Wrench"
+        }
+      }
+    ]
+  }
+}

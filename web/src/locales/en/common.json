@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Agendei"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Sign in to your account to manage your appointments",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "submitButton": "Sign In",
+      "submittingButton": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "title": "Create Account",
+      "description": "Fill in the details below to register",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your full name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "(00) 00000-0000",
+      "roleLabel": "Account Type",
+      "roleClient": "Client",
+      "roleProvider": "Service Provider",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "submitButton": "Register",
+      "submittingButton": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    }
+  },
+  "appointments": {
+    "new": {
+      "title": "New Appointment",
+      "description": "Fill in the service details",
+      "serviceNameLabel": "Service Name",
+      "serviceNamePlaceholder": "E.g.: Haircut",
+      "dateLabel": "Date and Time",
+      "durationLabel": "Duration (minutes)",
+      "descriptionLabel": "Description",
+      "descriptionLabelOptional": "Description (Optional)",
+      "descriptionPlaceholder": "Additional details...",
+      "cancelButton": "Cancel",
+      "submitButton": "Confirm Appointment",
+      "submittingButton": "Scheduling..."
+    },
+    "details": {
+      "title": "Appointment Details",
+      "service": "Service",
+      "date": "Date and Time",
+      "duration": "Duration",
+      "minutes": "minutes",
+      "description": "Description",
+      "status": "Status",
+      "backButton": "Back"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    }
+  },
+  "dashboard": {
+    "title": "My Appointments",
+    "newAppointment": "New Appointment",
+    "noAppointments": "No appointments found",
+    "loading": "Loading..."
+  },
+  "header": {
+    "logout": "Sign Out",
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "toggle": "Toggle theme"
+    },
+    "language": {
+      "select": "Select language",
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "validation": {
+    "required": "Required field",
+    "email": {
+      "invalid": "Invalid email"
+    },
+    "password": {
+      "minLength": "Password must be at least {{min}} characters",
+      "mismatch": "Passwords do not match",
+      "strength": {
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong"
+      }
+    },
+    "name": {
+      "minLength": "Name must be at least {{min}} characters",
+      "invalid": "Name must contain only letters and spaces"
+    },
+    "phone": {
+      "invalid": "Invalid phone. Use format (99) 99999-9999",
+      "required": "Phone is required"
+    },
+    "service": {
+      "minLength": "Service must be at least {{min}} characters"
+    },
+    "date": {
+      "future": "Date must be in the future",
+      "past": "Cannot select past dates"
+    },
+    "duration": {
+      "min": "Minimum duration is {{min}} minutes"
+    }
+  },
+  "errors": {
+    "generic": "An error occurred. Please try again.",
+    "loginFailed": "Login failed. Check your credentials.",
+    "registerFailed": "Error creating account. Please try again.",
+    "appointmentFailed": "Error creating appointment.",
+    "loadFailed": "Error loading data."
+  }
+}

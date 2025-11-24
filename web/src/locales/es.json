@@ -1,0 +1,111 @@
+{
+  "header": {
+    "search": {
+      "placeholder": "Buscar servicio",
+      "anywhere": "Cualquier lugar",
+      "anyweek": "Cualquier semana",
+      "guests": "Servicio",
+      "search_service": "Buscar servicio",
+      "location": "Dónde",
+      "placeholder_location": "Ej: Barcelona, España...",
+      "date": "Cuándo",
+      "placeholder_date": "Agregar fechas",
+      "service_type": "Qué",
+      "select_category": "Seleccione",
+      "search_button": "Buscar"
+    },
+    "tabs": {
+      "presential": "Presencial",
+      "digital": "En línea"
+    },
+    "host_action": "Anuncia tu servicio",
+    "menu": {
+      "login": "Entrar",
+      "register": "Registrarse",
+      "my_appointments": "Mis Reservas",
+      "profile": "Perfil",
+      "logout": "Cerrar sesión",
+      "help": "Ayuda",
+      "host": "Sé un anfitrión"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "description": "Inicia sesión en tu cuenta para continuar.",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "passwordLabel": "Contraseña",
+      "submitButton": "Entrar",
+      "noAccount": "¿No tienes cuenta?",
+      "registerLink": "Regístrate"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "description": "Únete a nuestra comunidad.",
+      "nameLabel": "Nombre Completo",
+      "namePlaceholder": "Ej: Juan Pérez",
+      "documentLabel": "Documento de Identidad",
+      "documentPlaceholder": "Solo números",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "phoneLabel": "Celular",
+      "phonePlaceholder": "(00) 00000-0000",
+      "passwordLabel": "Contraseña",
+      "confirmPasswordLabel": "Confirma tu contraseña",
+      "submitButton": "Registrarse",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Entra aquí"
+    }
+  },
+  "categories": {
+    "faxina": "Limpieza",
+    "obras-reparos": "Reformas",
+    "saude-bem-estar": "Salud",
+    "todos": "Todos",
+    "limpeza": "Limpieza",
+    "reparos": "Reparaciones",
+    "aulas": "Clases",
+    "saude": "Salud",
+    "beleza": "Belleza",
+    "transporte": "Transporte",
+    "favoritos": "Favoritos",
+    "turismo": "Turismo",
+    "esportes-lazer": "Deportes y Ocio",
+    "eventos": "Eventos"
+  },
+  "price_unit": {
+    "HOURLY": "por hora",
+    "DAILY": "por día",
+    "PER_PERSON": "por persona",
+    "FIXED": "precio fijo",
+    "PER_METRIC": "por m²"
+  },
+  "service_card": {
+    "per_person": "por persona"
+  },
+  "common": {
+    "processing": "Procesando..."
+  },
+  "becomeHost": {
+    "title": "Conviértete en Proveedor",
+    "subtitle": "Comienza a ganar dinero con tus habilidades hoy mismo.",
+    "benefits": {
+      "earn": "Gana dinero extra",
+      "flexibility": "Trabaja cuando quieras",
+      "community": "Únete a una comunidad global"
+    },
+    "confirm_data": "Confirma tus datos",
+    "action": "Activar mi cuenta de Proveedor"
+  },
+  "validation": {
+    "document": { "invalid": "Documento inválido." },
+    "password": {
+      "mismatch": "Las contraseñas no coinciden.",
+      "strength": { "strong": "Contraseña fuerte", "medium": "Fuerza media", "weak": "Contraseña débil" },
+      "requirements": "Mín 8 caracteres, mayúscula, minúscula, número y especial."
+    },
+    "required": "Campo obligatorio",
+    "email_invalid": "Correo inválido"
+  }
+}

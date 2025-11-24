@@ -1,0 +1,25 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "startTime": "09:00",
+      "endTime": "10:00",
+      "available": true
+    },
+    {
+      "startTime": "10:00",
+      "endTime": "11:00",
+      "available": true
+    },
+    {
+      "startTime": "11:00",
+      "endTime": "12:00",
+      "available": false
+    },
+    {
+      "startTime": "14:00",
+      "endTime": "15:00",
+      "available": true
+    }
+  ]
+}

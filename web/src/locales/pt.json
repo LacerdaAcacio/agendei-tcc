@@ -1,0 +1,117 @@
+{
+  "header": {
+    "search": {
+      "placeholder": "Buscar serviço",
+      "anywhere": "Qualquer lugar",
+      "anyweek": "Qualquer semana",
+      "guests": "Serviço",
+      "search_service": "Buscar serviço",
+      "location": "Onde",
+      "placeholder_location": "Ex: Curitiba, Santa Catarina...",
+      "date": "Quando",
+      "placeholder_date": "Adicionar datas",
+      "service_type": "O que",
+      "select_category": "Selecione",
+      "search_button": "Buscar"
+    },
+    "tabs": {
+      "presential": "Presencial",
+      "digital": "Online"
+    },
+    "host_action": "Divulgue seu serviço",
+    "menu": {
+      "login": "Entrar",
+      "register": "Cadastrar",
+      "my_appointments": "Meus Agendamentos",
+      "profile": "Perfil",
+      "logout": "Sair",
+      "help": "Ajuda",
+      "host": "Seja um anfitrião"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bem-vindo de volta",
+      "description": "Entre na sua conta para continuar.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "passwordLabel": "Senha",
+      "submitButton": "Entrar",
+      "noAccount": "Não tem conta?",
+      "registerLink": "Cadastre-se"
+    },
+    "register": {
+      "title": "Crie sua conta",
+      "description": "Junte-se à nossa comunidade.",
+      "nameLabel": "Nome Completo",
+      "namePlaceholder": "Ex: João Silva",
+      "documentLabel": "CPF ou CNPJ",
+      "documentPlaceholder": "Digite apenas números",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "phoneLabel": "Celular",
+      "phonePlaceholder": "(00) 00000-0000",
+      "passwordLabel": "Senha",
+      "confirmPasswordLabel": "Confirme sua senha",
+      "submitButton": "Cadastrar",
+      "hasAccount": "Já tem uma conta?",
+      "loginLink": "Entre aqui"
+    }
+  },
+  "categories": {
+    "faxina": "Faxina",
+    "obras-reparos": "Reformas",
+    "saude-bem-estar": "Saúde",
+    "todos": "Todos",
+    "limpeza": "Limpeza",
+    "reparos": "Reparos",
+    "aulas": "Aulas",
+    "saude": "Saúde",
+    "beleza": "Beleza",
+    "transporte": "Transporte",
+    "favoritos": "Favoritos",
+    "turismo": "Turismo",
+    "esportes-lazer": "Esportes e Lazer",
+    "eventos": "Eventos"
+  },
+  "price_unit": {
+    "HOURLY": "por hora",
+    "DAILY": "por dia",
+    "PER_PERSON": "por pessoa",
+    "FIXED": "valor fixo",
+    "PER_METRIC": "por m²"
+  },
+  "service_card": {
+    "per_person": "por pessoa"
+  },
+  "common": {
+    "processing": "Processando..."
+  },
+  "becomeHost": {
+    "title": "Torne-se um Prestador",
+    "subtitle": "Comece a ganhar dinheiro com suas habilidades hoje mesmo.",
+    "benefits": {
+      "earn": "Ganhe dinheiro extra",
+      "flexibility": "Trabalhe quando quiser",
+      "community": "Junte-se a uma comunidade global"
+    },
+    "confirm_data": "Confirme seus dados",
+    "action": "Ativar minha conta de Prestador"
+  },
+  "validation": {
+    "document": {
+      "invalid": "Documento inválido. Verifique os números."
+    },
+    "password": {
+      "mismatch": "As senhas não coincidem.",
+      "strength": {
+        "strong": "Senha forte",
+        "medium": "Senha média",
+        "weak": "Senha fraca"
+      },
+      "requirements": "Mínimo 8 caracteres, maiúscula, minúscula, número e especial."
+    },
+    "required": "Campo obrigatório",
+    "email_invalid": "E-mail inválido"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "header": {
+    "search": {
+      "placeholder": "Search service",
+      "anywhere": "Anywhere",
+      "anyweek": "Any week",
+      "guests": "Service",
+      "search_service": "Search service",
+      "location": "Where",
+      "placeholder_location": "Ex: New York, USA...",
+      "date": "When",
+      "placeholder_date": "Add dates",
+      "service_type": "What",
+      "select_category": "Select",
+      "search_button": "Search"
+    },
+    "tabs": {
+      "presential": "In-person",
+      "digital": "Online"
+    },
+    "host_action": "Advertise your service",
+    "menu": {
+      "login": "Login",
+      "register": "Register",
+      "my_appointments": "My Bookings",
+      "profile": "Profile",
+      "logout": "Logout",
+      "help": "Help",
+      "host": "Become a host"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "description": "Login to your account to continue.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "submitButton": "Login",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "title": "Create your account",
+      "description": "Join our community.",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "Ex: John Doe",
+      "documentLabel": "Document ID",
+      "documentPlaceholder": "Enter numbers only",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phoneLabel": "Mobile",
+      "phonePlaceholder": "(00) 00000-0000",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm your password",
+      "submitButton": "Register",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login here"
+    }
+  },
+  "categories": {
+    "todos": "All",
+    "faxina": "Cleaning",
+    "obras-reparos": "Repairs",
+    "saude-bem-estar": "Health",
+    "limpeza": "Cleaning",
+    "reparos": "Repairs",
+    "aulas": "Classes",
+    "saude": "Health",
+    "beleza": "Beauty",
+    "transporte": "Transport",
+    "favoritos": "Favorites",
+    "turismo": "Tourism",
+    "esportes-lazer": "Sports & Leisure",
+    "eventos": "Events"
+  },
+  "price_unit": {
+    "HOURLY": "per hour",
+    "DAILY": "per day",
+    "PER_PERSON": "per person",
+    "FIXED": "fixed price",
+    "PER_METRIC": "per sqm"
+  },
+  "service_card": {
+    "per_person": "per person"
+  },
+  "common": {
+    "processing": "Processing..."
+  },
+  "becomeHost": {
+    "title": "Become a Provider",
+    "subtitle": "Start earning money with your skills today.",
+    "benefits": {
+      "earn": "Earn extra money",
+      "flexibility": "Work when you want",
+      "community": "Join a global community"
+    },
+    "confirm_data": "Confirm your data",
+    "action": "Activate my Provider account"
+  },
+  "validation": {
+    "document": { "invalid": "Invalid document." },
+    "password": {
+      "mismatch": "Passwords do not match.",
+      "strength": { "strong": "Strong password", "medium": "Medium strength", "weak": "Weak password" },
+      "requirements": "Min 8 chars, uppercase, lowercase, number and special."
+    },
+    "required": "Required field",
+    "email_invalid": "Invalid email"
+  }
+}

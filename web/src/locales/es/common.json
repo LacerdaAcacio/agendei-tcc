@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Agendei"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "description": "Ingrese a su cuenta para administrar sus citas",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "su@email.com",
+      "passwordLabel": "Contraseña",
+      "submitButton": "Ingresar",
+      "submittingButton": "Ingresando...",
+      "noAccount": "¿No tienes una cuenta?",
+      "registerLink": "Regístrate"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "description": "Complete los datos a continuación para registrarse",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Su nombre completo",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "su@email.com",
+      "phoneLabel": "Teléfono",
+      "phonePlaceholder": "(00) 00000-0000",
+      "roleLabel": "Tipo de Cuenta",
+      "roleClient": "Cliente",
+      "roleProvider": "Proveedor de Servicios",
+      "passwordLabel": "Contraseña",
+      "confirmPasswordLabel": "Confirmar Contraseña",
+      "submitButton": "Registrarse",
+      "submittingButton": "Creando cuenta...",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Iniciar sesión"
+    }
+  },
+  "appointments": {
+    "new": {
+      "title": "Nueva Cita",
+      "description": "Complete los detalles del servicio",
+      "serviceNameLabel": "Nombre del Servicio",
+      "serviceNamePlaceholder": "Ej: Corte de Cabello",
+      "dateLabel": "Fecha y Hora",
+      "durationLabel": "Duración (minutos)",
+      "descriptionLabel": "Descripción",
+      "descriptionLabelOptional": "Descripción (Opcional)",
+      "descriptionPlaceholder": "Detalles adicionales...",
+      "cancelButton": "Cancelar",
+      "submitButton": "Confirmar Cita",
+      "submittingButton": "Agendando..."
+    },
+    "details": {
+      "title": "Detalles de la Cita",
+      "service": "Servicio",
+      "date": "Fecha y Hora",
+      "duration": "Duración",
+      "minutes": "minutos",
+      "description": "Descripción",
+      "status": "Estado",
+      "backButton": "Volver"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "cancelled": "Cancelado",
+      "completed": "Completado"
+    }
+  },
+  "dashboard": {
+    "title": "Mis Citas",
+    "newAppointment": "Nueva Cita",
+    "noAppointments": "No se encontraron citas",
+    "loading": "Cargando..."
+  },
+  "header": {
+    "logout": "Cerrar Sesión",
+    "theme": {
+      "light": "Modo Claro",
+      "dark": "Modo Oscuro",
+      "toggle": "Cambiar tema"
+    },
+    "language": {
+      "select": "Seleccionar idioma",
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "validation": {
+    "required": "Campo obligatorio",
+    "email": {
+      "invalid": "Correo electrónico inválido"
+    },
+    "password": {
+      "minLength": "La contraseña debe tener al menos {{min}} caracteres",
+      "mismatch": "Las contraseñas no coinciden",
+      "strength": {
+        "weak": "Débil",
+        "medium": "Media",
+        "strong": "Fuerte"
+      }
+    },
+    "name": {
+      "minLength": "El nombre debe tener al menos {{min}} caracteres",
+      "invalid": "El nombre debe contener solo letras y espacios"
+    },
+    "phone": {
+      "invalid": "Teléfono inválido. Use el formato (99) 99999-9999",
+      "required": "El teléfono es obligatorio"
+    },
+    "service": {
+      "minLength": "El servicio debe tener al menos {{min}} caracteres"
+    },
+    "date": {
+      "future": "La fecha debe ser futura",
+      "past": "No se pueden seleccionar fechas pasadas"
+    },
+    "duration": {
+      "min": "La duración mínima es de {{min}} minutos"
+    }
+  },
+  "errors": {
+    "generic": "Ocurrió un error. Inténtelo de nuevo.",
+    "loginFailed": "Error al iniciar sesión. Verifique sus credenciales.",
+    "registerFailed": "Error al crear cuenta. Inténtelo de nuevo.",
+    "appointmentFailed": "Error al crear cita.",
+    "loadFailed": "Error al cargar datos."
+  }
+}

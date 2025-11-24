@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "user-1",
+      "name": "Test User",
+      "email": "test@example.com",
+      "phone": "11999999999",
+      "role": "user",
+      "avatar": "https://i.pravatar.cc/150?u=test"
+    }
+  }
+}
