@@ -1,189 +1,86 @@
-# Agendei Backend API
+# Agendei API - Service Scheduling Platform
 
-Professional RESTful API for **Agendei** - A service scheduling system built with Clean Architecture principles.
+API RESTful desenvolvida em Node.js para gestão de agendamentos de serviços locais. O projeto foca na integridade de dados (ACID), prevenção de conflitos de horário e escalabilidade modular.
 
-## 🏗️ Architecture
+## Arquitetura
 
-This project follows **Clean Architecture** and **Layered Architecture** patterns:
+O projeto segue o padrão **Modular Monolith**, organizando o código por domínios de negócio em vez de camadas técnicas puras. Cada módulo (Users, Services, Bookings) possui sua própria estrutura interna seguindo o fluxo:
 
-```
-src/
-├── modules/              # Domain modules (Users, Appointments)
-│   ├── users/
-│   │   ├── UsersController.ts    # HTTP layer
-│   │   ├── UsersService.ts       # Business logic
-│   │   ├── UsersRepository.ts    # Data access
-│   │   ├── users.schema.ts       # Validation schemas
-│   │   └── users.routes.ts       # Route definitions
-│   └── appointments/
-│       └── ... (same structure)
-├── shared/               # Shared infrastructure
-│   ├── middlewares/      # Error handling, validation
-│   ├── errors/           # Custom error classes
-│   └── providers/        # External services (email, etc.)
-├── config/               # Configuration files
-│   ├── env.ts           # Environment variables
-│   └── swagger.ts       # API documentation config
-├── app.ts               # Express app setup
-└── server.ts            # Entry point
-```
+`Controller` -> `Service` (Regras de Negócio) -> `Repository` (Acesso a Dados)
 
-## 🚀 Tech Stack
+Isso mantém a coesão alta e o acoplamento baixo, facilitando a manutenção e testes.
 
-- **Runtime**: Node.js 18+
-- **Framework**: Express.js
-- **Language**: TypeScript (strict mode)
-- **ORM**: Prisma (SQLite for dev, PostgreSQL/MongoDB ready)
-- **Validation**: Zod
-- **Testing**: Jest + Supertest
-- **Documentation**: Swagger/OpenAPI
-- **Security**: Helmet, CORS, Rate Limiting
-- **Code Quality**: ESLint + Prettier
+## Tecnologias
 
-## 📋 Prerequisites
+*   **Runtime:** Node.js
+*   **Framework:** Express
+*   **Linguagem:** TypeScript
+*   **Database:** PostgreSQL (Produção) / SQLite (Dev)
+*   **ORM:** Prisma
+*   **Validação:** Zod
+*   **Testes:** Jest
 
-- Node.js >= 18.0.0
-- npm >= 9.0.0
+## Destaques Técnicos
 
-## ⚙️ Installation
+### Motor de Disponibilidade (Slots Engine)
+Algoritmo robusto para cálculo de horários livres.
+*   Geração dinâmica de slots baseada na duração do serviço + buffer.
+*   Prevenção de *double-booking* usando verificação de interseção de intervalos (`StartA < EndB && EndA > StartB`).
+*   Tratamento de Timezones para garantir precisão nas datas.
 
-1. **Clone the repository**
+### Segurança
+*   Autenticação via **JWT** (JSON Web Tokens).
+*   Controle de acesso baseado em funções (RBAC) para Clientes e Prestadores.
+*   Senhas criptografadas com **Bcrypt**.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Validação Rigorosa
+*   Todos os inputs são validados com **Zod** antes de atingir a camada de serviço.
+*   Validação de formato de documentos (CPF/CNPJ).
 
-3. **Setup environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` with your configuration.
+## Como Rodar
 
-4. **Initialize the database**
-   ```bash
-   npm run prisma:generate
-   npm run prisma:migrate
-   ```
+### Pré-requisitos
+*   Node.js (v18+)
+*   NPM ou Yarn
 
-## 🛠️ Available Scripts
+### Passo a Passo
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production |
-| `npm start` | Start production server |
-| `npm test` | Run tests |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:coverage` | Generate test coverage report |
-| `npm run lint` | Check code quality |
-| `npm run lint:fix` | Fix linting issues |
-| `npm run format` | Format code with Prettier |
-| `npm run prisma:generate` | Generate Prisma Client |
-| `npm run prisma:migrate` | Run database migrations |
-| `npm run prisma:studio` | Open Prisma Studio (DB GUI) |
+1.  **Clone o repositório**
+    ```bash
+    git clone https://github.com/seu-usuario/agendei-backend.git
+    cd agendei-backend
+    ```
 
-## 🚦 Quick Start
+2.  **Instale as dependências**
+    ```bash
+    npm install
+    ```
 
-```bash
-# Install dependencies
-npm install
+3.  **Configure as variáveis de ambiente**
+    Crie um arquivo `.env` na raiz baseado no `.env.example`:
+    ```bash
+    cp .env.example .env
+    ```
 
-# Setup database
-npm run prisma:generate
-npm run prisma:migrate
+4.  **Banco de Dados**
+    Rode as migrations para criar as tabelas:
+    ```bash
+    npx prisma migrate dev
+    ```
 
-# Start development server
-npm run dev
-```
+5.  **Seed (Dados Iniciais)**
+    Popule o banco com dados de teste (Categorias, Usuários, Serviços):
+    ```bash
+    npx prisma db seed
+    ```
 
-The API will be available at:
-- **API**: http://localhost:3000
-- **Swagger Docs**: http://localhost:3000/api-docs
-- **Health Check**: http://localhost:3000/health
+6.  **Inicie o Servidor**
+    ```bash
+    npm run dev
+    ```
+    O servidor rodará em `http://localhost:3333`.
 
-## 📚 API Documentation
+## Planejamento
 
-Once the server is running, visit http://localhost:3000/api-docs for interactive API documentation powered by Swagger UI.
-
-### Main Endpoints
-
-- `GET /health` - Health check
-- `POST /api/v1/users` - Create user
-- `GET /api/v1/users` - List all users
-- `GET /api/v1/users/:id` - Get user by ID
-- `PUT /api/v1/users/:id` - Update user
-- `DELETE /api/v1/users/:id` - Delete user
-- `POST /api/v1/appointments` - Create appointment
-- `GET /api/v1/appointments` - List all appointments
-- `GET /api/v1/appointments/:id` - Get appointment by ID
-- `GET /api/v1/appointments/user/:userId` - Get user appointments
-- `PUT /api/v1/appointments/:id` - Update appointment
-- `DELETE /api/v1/appointments/:id` - Delete appointment
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
-```
-
-## 🔒 Security Features
-
-- **Helmet**: Secure HTTP headers
-- **CORS**: Cross-origin resource sharing configuration
-- **Rate Limiting**: Prevent abuse
-- **Input Validation**: Zod schema validation
-- **Error Handling**: Centralized error management
-
-## 📦 Database
-
-This project uses **Prisma ORM** with:
-- **Development**: SQLite (no setup required)
-- **Production**: PostgreSQL or MongoDB (update `DATABASE_URL` in `.env`)
-
-### Database Models
-
-- **User**: User accounts (client, provider, admin)
-- **Appointment**: Service scheduling with conflict detection
-
-## 🎯 Key Features
-
-- ✅ Clean Architecture with separation of concerns
-- ✅ Type-safe with strict TypeScript
-- ✅ Automatic API documentation (Swagger)
-- ✅ Comprehensive input validation (Zod)
-- ✅ Integration tests (Supertest)
-- ✅ Security best practices
-- ✅ Appointment conflict detection
-- ✅ Graceful server shutdown
-- ✅ Development/Production environment support
-
-## 📝 Code Quality
-
-This project enforces code quality through:
-- **TypeScript**: Strict mode enabled
-- **ESLint**: Code linting with TypeScript rules
-- **Prettier**: Consistent code formatting
-- **Jest**: Testing with coverage reports
-
-## 🤝 Contributing
-
-1. Follow the established architecture patterns
-2. Write tests for new features
-3. Run `npm run lint` and `npm run format` before committing
-4. Update API documentation for new endpoints
-
-## 📄 License
-
-MIT
-
----
-
-**Built for TCC (Thesis Project) - Professional Grade Backend API**
+Acompanhe o progresso e o roadmap do projeto no Trello:
+[Agendei - Quadro de Tarefas](https://trello.com/invite/b/6923691dc80ae47b7f0729f8/ATTI39f8a221bb69fd07e5cafddd97ac5004A6DA3F14/agendai)
