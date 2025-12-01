@@ -28,13 +28,13 @@ export function ServiceCarousel({ title, services }: ServiceCarouselProps) {
 
   return (
     <div className="py-8">
-      <div className="flex items-center justify-between mb-4 px-1">
+      <div className="mb-4 flex items-center justify-between px-1">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
         <div className="flex gap-2">
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full h-8 w-8"
+            className="h-8 w-8 rounded-full"
             onClick={() => scroll('left')}
           >
             <ChevronLeft className="h-4 w-4" />
@@ -42,7 +42,7 @@ export function ServiceCarousel({ title, services }: ServiceCarouselProps) {
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full h-8 w-8"
+            className="h-8 w-8 rounded-full"
             onClick={() => scroll('right')}
           >
             <ChevronRight className="h-4 w-4" />
@@ -50,9 +50,9 @@ export function ServiceCarousel({ title, services }: ServiceCarouselProps) {
         </div>
       </div>
 
-      <div 
+      <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 scroll-smooth"
+        className="no-scrollbar -mx-4 flex gap-6 overflow-x-auto scroll-smooth px-4 pb-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {services.map((service) => (

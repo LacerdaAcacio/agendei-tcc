@@ -265,6 +265,9 @@ async function main() {
         images.push(uniqueImage);
       }
 
+      // Shuffle images to randomize cover
+      images.sort(() => Math.random() - 0.5);
+
       const availability = JSON.stringify({
         monday: { active: true, start: '08:00', end: '18:00' },
         tuesday: { active: true, start: '08:00', end: '18:00' },

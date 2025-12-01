@@ -24,14 +24,7 @@ export const createServiceSchema = z.object({
   availability: z.string().optional(), // JSON string
 });
 
-// Category options
-export const CATEGORIES = [
-  { value: 'turismo', label: 'Turismo' },
-  { value: 'gastronomia', label: 'Gastronomia' },
-  { value: 'aventura', label: 'Aventura' },
-  { value: 'cultura', label: 'Cultura' },
-  { value: 'esporte', label: 'Esporte' },
-] as const;
+// Category options removed in favor of dynamic fetching
 
 // Duration options
 export const DURATION_OPTIONS = [

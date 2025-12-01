@@ -7,7 +7,7 @@ export function useAvailabilityScheduler(
   value: Availability,
   onChange: (value: Availability) => void,
 ) {
-  const handleDayChange = (day: string, field: keyof DaySchedule, newValue: any) => {
+  const handleDayChange = (day: string, field: keyof DaySchedule, newValue: boolean | string) => {
     const updated = {
       ...value,
       [day]: {

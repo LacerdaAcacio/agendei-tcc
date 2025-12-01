@@ -1,8 +1,8 @@
 import { z } from 'zod';
-
+import type { TFunction } from 'i18next';
 import { validateCPF, validateCNPJ } from '@/lib/validators';
 
-export const createRegisterSchema = (t: any) =>
+export const createRegisterSchema = (t: TFunction) =>
   z
     .object({
       name: z

@@ -2,18 +2,24 @@ import { useState, useEffect } from 'react';
 
 // Mock data for fallback
 const FALLBACK_LOCATIONS = [
-  { label: "Ponta Grossa, PR", lat: -25.0945, lon: -50.1633 },
-  { label: "Curitiba, PR", lat: -25.4284, lon: -49.2733 },
-  { label: "São Paulo, SP", lat: -23.5505, lon: -46.6333 },
-  { label: "Rio de Janeiro, RJ", lat: -22.9068, lon: -43.1729 },
-  { label: "Florianópolis, SC", lat: -27.5954, lon: -48.5480 },
-  { label: "Belo Horizonte, MG", lat: -19.9167, lon: -43.9345 },
+  { label: 'Ponta Grossa, PR', lat: -25.0945, lon: -50.1633 },
+  { label: 'Curitiba, PR', lat: -25.4284, lon: -49.2733 },
+  { label: 'São Paulo, SP', lat: -23.5505, lon: -46.6333 },
+  { label: 'Rio de Janeiro, RJ', lat: -22.9068, lon: -43.1729 },
+  { label: 'Florianópolis, SC', lat: -27.5954, lon: -48.548 },
+  { label: 'Belo Horizonte, MG', lat: -19.9167, lon: -43.9345 },
 ];
 
 export interface LocationResult {
   label: string;
   lat: number;
   lon: number;
+}
+
+interface NominatimResult {
+  display_name: string;
+  lat: string;
+  lon: string;
 }
 
 export function useLocationSearch() {
@@ -34,18 +40,18 @@ export function useLocationSearch() {
       try {
         // Try Nominatim API first
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&countrycodes=br`
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&countrycodes=br`,
         );
-        
+
         if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
-        
+
+        const data = (await response.json()) as NominatimResult[];
+
         if (data && data.length > 0) {
-          const mappedResults = data.map((item: any) => ({
+          const mappedResults = data.map((item) => ({
             label: item.display_name,
             lat: parseFloat(item.lat),
-            lon: parseFloat(item.lon)
+            lon: parseFloat(item.lon),
           }));
           setResults(mappedResults);
         } else {
@@ -54,9 +60,9 @@ export function useLocationSearch() {
         }
       } catch (error) {
         // Fallback to mock data
-        console.warn("Using fallback location data", error);
-        const filtered = FALLBACK_LOCATIONS.filter(loc => 
-          loc.label.toLowerCase().includes(query.toLowerCase())
+        console.warn('Using fallback location data', error);
+        const filtered = FALLBACK_LOCATIONS.filter((loc) =>
+          loc.label.toLowerCase().includes(query.toLowerCase()),
         );
         setResults(filtered);
       } finally {
@@ -71,6 +77,6 @@ export function useLocationSearch() {
     query,
     setQuery,
     results,
-    isLoading
+    isLoading,
   };
 }

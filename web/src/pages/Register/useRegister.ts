@@ -1,5 +1,6 @@
+import { isAxiosError } from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,12 +18,12 @@ export function useRegister() {
   const {
     register,
     handleSubmit,
-    watch,
+    control, // Add control
     setValue,
     formState: { errors, isSubmitting },
     setError,
   } = useForm<RegisterFormInputs>({
-    resolver: zodResolver(registerSchema) as any,
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -33,7 +34,8 @@ export function useRegister() {
     },
   });
 
-  const password = watch('password');
+  // Use useWatch for better performance and to satisfy linter
+  const password = useWatch({ control, name: 'password' });
 
   const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value.replace(/\D/g, '');
@@ -58,23 +60,31 @@ export function useRegister() {
 
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      const { confirmPassword, ...registerData } = data;
-
-      const cleanDoc = registerData.document.replace(/[^\d]+/g, '');
+      const cleanDoc = data.document.replace(/[^\d]+/g, '');
       const documentType = cleanDoc.length === 14 ? 'CNPJ' : 'CPF';
 
+      // Explicitly construct payload to avoid unused variable warning
       const payload = {
-        ...registerData,
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
         document: cleanDoc,
         documentType,
       };
 
       await api.post('/auth/register', payload);
       navigate('/login');
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
+      let message = t('errors.registerFailed');
+
+      if (isAxiosError(error) && error.response?.data?.message) {
+        message = error.response.data.message;
+      }
+
       setError('root', {
-        message: error.response?.data?.message || t('errors.registerFailed'),
+        message,
       });
     }
   };

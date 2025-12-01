@@ -1,10 +1,9 @@
-import * as React from "react"
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
-export interface MaskedInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  mask?: "cep" | "phone" | "cpf" | "cnpj" | "date";
+export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  mask?: 'cep' | 'phone' | 'cpf' | 'cnpj' | 'date';
   onValueChange?: (value: string) => void;
 }
 
@@ -58,51 +57,43 @@ const formatDate = (value: string) => {
 
 const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
   ({ className, mask, onChange, onValueChange, ...props }, ref) => {
-    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let value = e.target.value;
-      
+
       if (mask) {
         switch (mask) {
-          case "cep":
+          case 'cep':
             value = formatCEP(value);
             break;
-          case "phone":
+          case 'phone':
             value = formatPhone(value);
             break;
-          case "cpf":
+          case 'cpf':
             value = formatCPF(value);
             break;
-          case "cnpj":
+          case 'cnpj':
             value = formatCNPJ(value);
             break;
-          case "date":
+          case 'date':
             value = formatDate(value);
             break;
         }
       }
 
       e.target.value = value;
-      
+
       if (onChange) {
         onChange(e);
       }
-      
+
       if (onValueChange) {
         onValueChange(value);
       }
     };
 
-    return (
-      <Input
-        className={cn("", className)}
-        onChange={handleChange}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-MaskedInput.displayName = "MaskedInput"
+    return <Input className={cn('', className)} onChange={handleChange} ref={ref} {...props} />;
+  },
+);
+MaskedInput.displayName = 'MaskedInput';
 
-export { MaskedInput }
+export { MaskedInput };

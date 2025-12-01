@@ -6,26 +6,26 @@ import { Calendar, Clock, FileText, User } from 'lucide-react';
 import { useAppointmentDetails } from './useAppointmentDetails';
 
 export function AppointmentDetailsPage() {
-  const { 
-    t, 
-    i18n, 
-    appointment, 
-    isLoading, 
-    error, 
-    navigate, 
-    getStatusVariant, 
-    handleCancel, 
-    canCancel 
+  const {
+    t,
+    i18n,
+    appointment,
+    isLoading,
+    error,
+    navigate,
+    getStatusVariant,
+    handleCancel,
+    canCancel,
   } = useAppointmentDetails();
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 p-8 dark:bg-gray-900">
-        <div className="max-w-3xl mx-auto">
-          <Skeleton className="h-8 w-48 mb-6" />
+        <div className="mx-auto max-w-3xl">
+          <Skeleton className="mb-6 h-8 w-48" />
           <Card>
             <CardHeader>
-              <Skeleton className="h-6 w-64 mb-2" />
+              <Skeleton className="mb-2 h-6 w-64" />
               <Skeleton className="h-4 w-48" />
             </CardHeader>
             <CardContent className="space-y-6">
@@ -41,8 +41,8 @@ export function AppointmentDetailsPage() {
 
   if (error || !appointment) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 dark:bg-gray-900">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 dark:bg-gray-900">
+        <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-red-600">{t('errors.generic')}</CardTitle>
             <CardDescription>{t('errors.loadFailed')}</CardDescription>
@@ -59,14 +59,14 @@ export function AppointmentDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 dark:bg-gray-900">
-      <div className="max-w-3xl mx-auto">
+      <div className="mx-auto max-w-3xl">
         <Button variant="outline" onClick={() => navigate('/')} className="mb-6">
           ← {t('appointments.details.backButton')}
         </Button>
 
         <Card>
           <CardHeader>
-            <div className="flex justify-between items-start">
+            <div className="flex items-start justify-between">
               <div>
                 <CardTitle className="text-2xl">{appointment.serviceName}</CardTitle>
                 <CardDescription className="mt-2">ID: {appointment.id}</CardDescription>
@@ -79,9 +79,11 @@ export function AppointmentDetailsPage() {
           <CardContent className="space-y-6">
             <div className="grid gap-4">
               <div className="flex items-start gap-3">
-                <Calendar className="w-5 h-5 mt-0.5 text-gray-500 dark:text-gray-400" />
+                <Calendar className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('appointments.details.date')}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {t('appointments.details.date')}
+                  </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {new Date(appointment.date).toLocaleDateString(i18n.language, {
                       dateStyle: 'full',
@@ -91,9 +93,11 @@ export function AppointmentDetailsPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 mt-0.5 text-gray-500 dark:text-gray-400" />
+                <Clock className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('appointments.details.date')}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {t('appointments.details.date')}
+                  </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {new Date(appointment.date).toLocaleTimeString(i18n.language, {
                       timeStyle: 'short',
@@ -103,25 +107,33 @@ export function AppointmentDetailsPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 mt-0.5 text-gray-500 dark:text-gray-400" />
+                <Clock className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('appointments.details.duration')}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{appointment.duration} {t('appointments.details.minutes')}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {t('appointments.details.duration')}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {appointment.duration} {t('appointments.details.minutes')}
+                  </p>
                 </div>
               </div>
 
               {appointment.description && (
                 <div className="flex items-start gap-3">
-                  <FileText className="w-5 h-5 mt-0.5 text-gray-500 dark:text-gray-400" />
+                  <FileText className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                   <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('appointments.details.description')}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{appointment.description}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                      {t('appointments.details.description')}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {appointment.description}
+                    </p>
                   </div>
                 </div>
               )}
 
               <div className="flex items-start gap-3">
-                <User className="w-5 h-5 mt-0.5 text-gray-500 dark:text-gray-400" />
+                <User className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <div>
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">ID</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{appointment.userId}</p>
@@ -130,7 +142,7 @@ export function AppointmentDetailsPage() {
             </div>
 
             {canCancel && appointment.status === 'pending' && (
-              <div className="pt-4 border-t dark:border-gray-800">
+              <div className="border-t pt-4 dark:border-gray-800">
                 <Button variant="destructive" onClick={handleCancel} className="w-full">
                   {t('appointments.new.cancelButton')}
                 </Button>

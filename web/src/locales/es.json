@@ -2,8 +2,8 @@
   "header": {
     "search": {
       "placeholder": "Buscar servicio",
-      "anywhere": "Cualquier lugar",
-      "anyweek": "Cualquier semana",
+      "anywhere": "Ubicación",
+      "anyweek": "Fecha",
       "guests": "Servicio",
       "search_service": "Buscar servicio",
       "location": "Dónde",
@@ -102,10 +102,28 @@
     "document": { "invalid": "Documento inválido." },
     "password": {
       "mismatch": "Las contraseñas no coinciden.",
-      "strength": { "strong": "Contraseña fuerte", "medium": "Fuerza media", "weak": "Contraseña débil" },
+      "strength": {
+        "strong": "Contraseña fuerte",
+        "medium": "Fuerza media",
+        "weak": "Contraseña débil"
+      },
       "requirements": "Mín 8 caracteres, mayúscula, minúscula, número y especial."
     },
     "required": "Campo obligatorio",
     "email_invalid": "Correo inválido"
+  },
+  "my_services": {
+    "title": "Mis Servicios Anunciados",
+    "subtitle": "Gestiona los servicios que ofreces en la plataforma.",
+    "new_button": "Nuevo Servicio",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "empty_title": "Aún no tienes servicios",
+    "empty_description": "Comienza a ganar dinero ofreciendo tus experiencias y habilidades a nuestra comunidad.",
+    "empty_action": "Crear mi primer servicio",
+    "delete_dialog": {
+      "title": "¿Estás seguro de que deseas eliminar este servicio?",
+      "description": "Esta acción no se puede deshacer y cancelará las reservas futuras."
+    }
   }
 }

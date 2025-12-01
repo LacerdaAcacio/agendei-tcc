@@ -8,7 +8,8 @@ describe('cn (className utility)', () => {
   });
 
   it('should handle conditional classes', () => {
-    expect(cn('foo', false && 'bar', 'baz')).toBe('foo baz');
+    const shouldInclude = false;
+    expect(cn('foo', shouldInclude && 'bar', 'baz')).toBe('foo baz');
   });
 
   it('should handle undefined and null', () => {

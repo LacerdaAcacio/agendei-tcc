@@ -11,14 +11,12 @@ export function useServiceCard(service: Service) {
     e.preventDefault();
     e.stopPropagation();
 
-    // Optimistic update
     const newVal = !isFavorited;
     setFavorited(newVal);
 
     try {
       await api.post(`/services/${service.id}/favorite`);
-    } catch (error) {
-      // Rollback on error
+    } catch {
       setFavorited(!newVal);
       toast.error('Erro ao atualizar favorito');
     }

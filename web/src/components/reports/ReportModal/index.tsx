@@ -1,4 +1,11 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import type { ReportModalProps } from './types';
@@ -16,10 +23,10 @@ export function ReportModal({ isOpen, onClose, serviceId }: ReportModalProps) {
             Conte-nos o motivo da denúncia. Sua identidade será mantida em sigilo.
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-2">
-          <Textarea 
-            placeholder="Descreva o motivo (mínimo 10 caracteres)..." 
+          <Textarea
+            placeholder="Descreva o motivo (mínimo 10 caracteres)..."
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             className="min-h-[100px]"
@@ -34,10 +41,7 @@ export function ReportModal({ isOpen, onClose, serviceId }: ReportModalProps) {
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>
             Cancelar
           </Button>
-          <Button 
-            onClick={handleSubmit} 
-            disabled={reason.length < 10 || isSubmitting}
-          >
+          <Button onClick={handleSubmit} disabled={reason.length < 10 || isSubmitting}>
             {isSubmitting ? 'Enviando...' : 'Enviar Denúncia'}
           </Button>
         </DialogFooter>

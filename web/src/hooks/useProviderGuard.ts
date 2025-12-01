@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 
 export function useProviderGuard() {
   const { user } = useAuth();
@@ -19,6 +19,6 @@ export function useProviderGuard() {
 
   return {
     isProvider,
-    checkProvider
+    checkProvider,
   };
 }

@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { useState, useMemo } from 'react';
 
 import { api } from '@/lib/axios';
-import type { Service } from '@/types';
+import type { Service, SlotsResponse } from '@/types';
 
 export function useBookingWidget(
   service: Service,
@@ -49,7 +49,8 @@ export function useBookingWidget(
     queryFn: async () => {
       if (!formattedDate) return [];
       const response = await api.get(`/services/${service.id}/slots?date=${formattedDate}`);
-      return response.data.availableSlots || [];
+      const data = response as unknown as SlotsResponse;
+      return data.availableSlots || [];
     },
     enabled: !!formattedDate,
     staleTime: 0, // Always fetch fresh slots

@@ -1,18 +1,18 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderHook, waitFor } from '@/test/utils'
-import { useServiceDetails } from './useServiceDetails'
-import { api } from '@/lib/axios'
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { renderHook, waitFor } from '@/test/utils';
+import { useServiceDetails } from './useServiceDetails';
+import { api } from '@/lib/axios';
 
 vi.mock('@/lib/axios', () => ({
   api: {
     get: vi.fn(),
   },
-}))
+}));
 
 describe('useServiceDetails', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
   it('should fetch service details successfully', async () => {
     const mockService = {
@@ -30,42 +30,42 @@ describe('useServiceDetails', () => {
         name: 'Provider Name',
         avatar: 'https://example.com/avatar.jpg',
       },
-    }
+    };
 
-    vi.mocked(api.get).mockResolvedValueOnce({ data: mockService })
+    vi.mocked(api.get).mockResolvedValueOnce(mockService);
 
-    const { result } = renderHook(() => useServiceDetails('service-123'))
+    const { result } = renderHook(() => useServiceDetails('service-123'));
 
-    expect(result.current.isLoading).toBe(true)
+    expect(result.current.isLoading).toBe(true);
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBe(false)
-    })
+      expect(result.current.isLoading).toBe(false);
+    });
 
-    expect(api.get).toHaveBeenCalledWith('/services/service-123')
-    expect(result.current.service).toEqual(mockService)
-    expect(result.current.error).toBeNull()
-  })
+    expect(api.get).toHaveBeenCalledWith('/services/service-123');
+    expect(result.current.data).toEqual(mockService);
+    expect(result.current.error).toBeNull();
+  });
 
   it('should handle fetch error', async () => {
-    vi.mocked(api.get).mockRejectedValueOnce(new Error('Service not found'))
+    vi.mocked(api.get).mockRejectedValueOnce(new Error('Service not found'));
 
-    const { result } = renderHook(() => useServiceDetails('service-123'))
+    const { result } = renderHook(() => useServiceDetails('service-123'));
 
-    expect(result.current.isLoading).toBe(true)
+    expect(result.current.isLoading).toBe(true);
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBe(false)
-    })
+      expect(result.current.isLoading).toBe(false);
+    });
 
-    expect(result.current.service).toBeNull()
-    expect(result.current.error).toBeTruthy()
-  })
+    expect(result.current.data).toBeUndefined();
+    expect(result.current.error).toBeTruthy();
+  });
 
   it('should not fetch if serviceId is empty', () => {
-    const { result } = renderHook(() => useServiceDetails(''))
+    const { result } = renderHook(() => useServiceDetails(''));
 
-    expect(api.get).not.toHaveBeenCalled()
-    expect(result.current.service).toBeNull()
-  })
-})
+    expect(api.get).not.toHaveBeenCalled();
+    expect(result.current.data).toBeUndefined();
+  });
+});

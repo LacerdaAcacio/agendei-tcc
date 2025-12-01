@@ -2,7 +2,6 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-// Fix for Leaflet marker icons in React
 export const DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow,
@@ -10,5 +9,4 @@ export const DefaultIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Apply default icon to all markers
 L.Marker.prototype.options.icon = DefaultIcon;

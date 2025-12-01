@@ -2,8 +2,8 @@
   "header": {
     "search": {
       "placeholder": "Buscar serviço",
-      "anywhere": "Qualquer lugar",
-      "anyweek": "Qualquer semana",
+      "anywhere": "Local",
+      "anyweek": "Data",
       "guests": "Serviço",
       "search_service": "Buscar serviço",
       "location": "Onde",
@@ -113,5 +113,19 @@
     },
     "required": "Campo obrigatório",
     "email_invalid": "E-mail inválido"
+  },
+  "my_services": {
+    "title": "Meus Serviços Anunciados",
+    "subtitle": "Gerencie os serviços que você oferece na plataforma.",
+    "new_button": "Novo Serviço",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "empty_title": "Você ainda não tem serviços",
+    "empty_description": "Comece a ganhar dinheiro oferecendo suas experiências e habilidades para nossa comunidade.",
+    "empty_action": "Criar meu primeiro serviço",
+    "delete_dialog": {
+      "title": "Tem certeza que deseja excluir este serviço?",
+      "description": "Esta ação não pode ser desfeita e cancelará os agendamentos futuros."
+    }
   }
 }

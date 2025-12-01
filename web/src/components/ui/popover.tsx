@@ -1,5 +1,5 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 // Simple custom Popover implementation to avoid adding new dependencies
 // given the disk space constraints.
@@ -30,26 +30,26 @@ const Popover = ({ children, open: controlledOpen, onOpenChange }: PopoverProps)
 
 const PopoverTrigger = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
->(({ className, onClick, asChild, ...props }, ref) => {
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean; children?: React.ReactNode }
+>(({ children }) => {
   const { open, setOpen } = React.useContext(PopoverContext);
-  
+
   // If asChild is true, we should clone the child, but for simplicity in this custom impl
   // we will just render the child if it's a valid element, or a button otherwise.
   // However, to keep it simple and working with existing code, we'll just wrap it.
-  
+
   return (
     <div onClick={() => setOpen(!open)} className="inline-block cursor-pointer">
-      {props.children}
+      {children}
     </div>
   );
 });
-PopoverTrigger.displayName = "PopoverTrigger"
+PopoverTrigger.displayName = 'PopoverTrigger';
 
 const PopoverContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { align?: "center" | "start" | "end" }
->(({ className, align = "center", ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & { align?: 'center' | 'start' | 'end' }
+>(({ className, align = 'center', ...props }) => {
   const { open, setOpen } = React.useContext(PopoverContext);
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -61,10 +61,10 @@ const PopoverContent = React.forwardRef<
     };
 
     if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [open, setOpen]);
 
@@ -74,14 +74,15 @@ const PopoverContent = React.forwardRef<
     <div
       ref={contentRef}
       className={cn(
-        "absolute z-50 mt-2 w-72 rounded-md border bg-popover dark:bg-slate-900 p-4 text-popover-foreground dark:text-white shadow-md outline-none animate-in fade-in-0 zoom-in-95 dark:border-slate-800",
-        align === "end" ? "right-0" : align === "center" ? "left-1/2 -translate-x-1/2" : "left-0",
-        className
+        'animate-in fade-in-0 zoom-in-95 absolute z-50 mt-2 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-white',
+        align === 'end' ? 'right-0' : align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0',
+        className,
       )}
+      role="dialog"
       {...props}
     />
   );
 });
-PopoverContent.displayName = "PopoverContent"
+PopoverContent.displayName = 'PopoverContent';
 
-export { Popover, PopoverTrigger, PopoverContent }
+export { Popover, PopoverTrigger, PopoverContent };

@@ -11,13 +11,16 @@ interface LightboxProps {
 }
 
 export function Lightbox({ isOpen, onClose, images, currentIndex, onIndexChange }: LightboxProps) {
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (!isOpen) return;
-    
-    if (e.key === 'Escape') onClose();
-    if (e.key === 'ArrowLeft') onIndexChange((currentIndex - 1 + images.length) % images.length);
-    if (e.key === 'ArrowRight') onIndexChange((currentIndex + 1) % images.length);
-  }, [isOpen, onClose, currentIndex, images.length, onIndexChange]);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (!isOpen) return;
+
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onIndexChange((currentIndex - 1 + images.length) % images.length);
+      if (e.key === 'ArrowRight') onIndexChange((currentIndex + 1) % images.length);
+    },
+    [isOpen, onClose, currentIndex, images.length, onIndexChange],
+  );
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -27,12 +30,12 @@ export function Lightbox({ isOpen, onClose, images, currentIndex, onIndexChange 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm">
       {/* Close Button */}
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-4 right-4 text-white hover:bg-white/10 z-50 rounded-full h-10 w-10"
+        className="absolute right-4 top-4 z-50 h-10 w-10 rounded-full text-white hover:bg-white/10"
         onClick={onClose}
       >
         <X className="h-6 w-6" />
@@ -44,7 +47,7 @@ export function Lightbox({ isOpen, onClose, images, currentIndex, onIndexChange 
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-4 text-white hover:bg-white/10 z-50 rounded-full h-12 w-12 hidden md:flex"
+            className="absolute left-4 z-50 hidden h-12 w-12 rounded-full text-white hover:bg-white/10 md:flex"
             onClick={(e) => {
               e.stopPropagation();
               onIndexChange((currentIndex - 1 + images.length) % images.length);
@@ -56,7 +59,7 @@ export function Lightbox({ isOpen, onClose, images, currentIndex, onIndexChange 
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-4 text-white hover:bg-white/10 z-50 rounded-full h-12 w-12 hidden md:flex"
+            className="absolute right-4 z-50 hidden h-12 w-12 rounded-full text-white hover:bg-white/10 md:flex"
             onClick={(e) => {
               e.stopPropagation();
               onIndexChange((currentIndex + 1) % images.length);
@@ -68,19 +71,19 @@ export function Lightbox({ isOpen, onClose, images, currentIndex, onIndexChange 
       )}
 
       {/* Image Container */}
-      <div 
-        className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
+      <div
+        className="relative flex h-full w-full items-center justify-center p-4 md:p-10"
         onClick={onClose}
       >
         <img
           src={images[currentIndex]}
           alt={`View ${currentIndex + 1}`}
-          className="max-h-full max-w-full object-contain shadow-2xl rounded-md select-none"
+          className="max-h-full max-w-full select-none rounded-md object-contain shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         />
-        
+
         {/* Counter */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-3 py-1 text-sm font-medium text-white/80">
           {currentIndex + 1} / {images.length}
         </div>
       </div>

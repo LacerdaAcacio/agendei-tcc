@@ -1,69 +1,93 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@/test/utils'
-import userEvent from '@testing-library/user-event'
-import { LoginPage } from './index'
-import { api } from '@/lib/axios'
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@/test/utils';
+import userEvent from '@testing-library/user-event';
+import { LoginPage } from './index';
+import { api } from '@/lib/axios';
 
 // Mock axios
 vi.mock('@/lib/axios', () => ({
   api: {
     post: vi.fn(),
   },
-}))
+}));
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        'auth.login.title': 'Login',
+        'auth.login.description': 'Entre na sua conta',
+        'auth.login.emailLabel': 'Email',
+        'auth.login.emailPlaceholder': 'seu@email.com',
+        'auth.login.passwordLabel': 'Senha',
+        'auth.login.submitButton': 'Entrar',
+        'auth.login.noAccount': 'Não tem conta?',
+        'auth.login.registerLink': 'Cadastre-se',
+        'common.processing': 'Processando...',
+        'validation.email.required': 'Email é obrigatório',
+        'validation.email.invalid': 'Email inválido',
+        'validation.password.required': 'Senha é obrigatória',
+        'validation.password.minLength': 'Senha deve ter no mínimo 6 caracteres',
+        'errors.loginFailed': 'Falha no login',
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
 
 // Mock react-router-dom navigation
-const mockNavigate = vi.fn()
+const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
+  const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-  }
-})
+  };
+});
 
 describe('LoginPage', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
   it('should render login form', () => {
-    render(<LoginPage />)
+    render(<LoginPage />);
 
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/senha/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
+  });
 
   it('should show validation errors for empty fields', async () => {
-    const user = userEvent.setup()
-    render(<LoginPage />)
+    const user = userEvent.setup();
+    render(<LoginPage />);
 
-    const submitButton = screen.getByRole('button', { name: /entrar/i })
-    await user.click(submitButton)
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
+    await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/email é obrigat/i)).toBeInTheDocument()
-      expect(screen.getByText(/senha é obrigat/i)).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText(/email é obrigat/i)).toBeInTheDocument();
+      expect(screen.getByText(/senha é obrigat/i)).toBeInTheDocument();
+    });
+  });
 
   it('should show validation error for invalid email', async () => {
-    const user = userEvent.setup()
-    render(<LoginPage />)
+    const user = userEvent.setup();
+    render(<LoginPage />);
 
-    const emailInput = screen.getByLabelText(/email/i)
-    await user.type(emailInput, 'invalid-email')
+    const emailInput = screen.getByLabelText(/email/i);
+    await user.type(emailInput, 'invalid-email');
 
-    const submitButton = screen.getByRole('button', { name: /entrar/i })
-    await user.click(submitButton)
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
+    await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/email inválido/i)).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText(/email inválido/i)).toBeInTheDocument();
+    });
+  });
 
   it('should submit form with valid data', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
     const mockResponse = {
       data: {
         token: 'test-token',
@@ -76,86 +100,86 @@ describe('LoginPage', () => {
           createdAt: new Date().toISOString(),
         },
       },
-    }
+    };
 
-    vi.mocked(api.post).mockResolvedValueOnce(mockResponse)
+    vi.mocked(api.post).mockResolvedValueOnce(mockResponse);
 
-    render(<LoginPage />)
+    render(<LoginPage />);
 
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/senha/i)
-    const submitButton = screen.getByRole('button', { name: /entrar/i })
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
 
-    await user.type(emailInput, 'test@example.com')
-    await user.type(passwordInput, 'password123')
-    await user.click(submitButton)
+    await user.type(emailInput, 'test@example.com');
+    await user.type(passwordInput, 'password123');
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(api.post).toHaveBeenCalledWith('/auth/login', {
         email: 'test@example.com',
         password: 'password123',
-      })
-    })
+      });
+    });
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/')
-    })
-  })
+      expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
+  });
 
   it('should show error message on failed login', async () => {
-    const user = userEvent.setup()
-    
+    const user = userEvent.setup();
+
     vi.mocked(api.post).mockRejectedValueOnce({
+      isAxiosError: true,
       response: {
         data: {
           message: 'Invalid credentials',
         },
       },
-    })
+    });
 
-    render(<LoginPage />)
+    render(<LoginPage />);
 
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/senha/i)
-    const submitButton = screen.getByRole('button', { name: /entrar/i })
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
 
-    await user.type(emailInput, 'test@example.com')
-    await user.type(passwordInput, 'wrongpassword')
-    await user.click(submitButton)
+    await user.type(emailInput, 'test@example.com');
+    await user.type(passwordInput, 'wrongpassword');
+    await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+    });
+  });
 
   it('should disable submit button while submitting', async () => {
-    const user = userEvent.setup()
-    
+    const user = userEvent.setup();
+
     // Mock a slow API response
     vi.mocked(api.post).mockImplementation(
-      () => new Promise((resolve) => setTimeout(resolve, 1000))
-    )
+      () => new Promise((resolve) => setTimeout(resolve, 1000)),
+    );
 
-    render(<LoginPage />)
+    render(<LoginPage />);
 
-    const emailInput = screen.getByLabelText(/email/i)
-    const passwordInput = screen.getByLabelText(/senha/i)
-    const submitButton = screen.getByRole('button', { name: /entrar/i })
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
 
-    await user.type(emailInput, 'test@example.com')
-    await user.type(passwordInput, 'password123')
-    await user.click(submitButton)
+    await user.type(emailInput, 'test@example.com');
+    await user.type(passwordInput, 'password123');
+    await user.click(submitButton);
 
     // Button should be disabled while submitting
-    expect(submitButton).toBeDisabled()
-  })
+    expect(submitButton).toBeDisabled();
+  });
 
   it('should navigate to register page when clicking register link', async () => {
-    const user = userEvent.setup()
-    render(<LoginPage />)
+    render(<LoginPage />);
 
-    const registerLink = screen.getByRole('link', { name: /cadastre-se/i })
-    
-    expect(registerLink).toHaveAttribute('href', '/register')
-  })
-})
+    const registerLink = screen.getByRole('link', { name: /cadastre-se/i });
+
+    expect(registerLink).toHaveAttribute('href', '/register');
+  });
+});

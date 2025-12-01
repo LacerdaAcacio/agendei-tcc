@@ -20,30 +20,41 @@ export function CreateServicePage() {
     serviceType,
     onSubmit,
     createService,
-    navigate
+    navigate,
+    isEditing,
+    isLoadingDetails,
   } = useCreateService();
 
+  if (isEditing && isLoadingDetails) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
-   <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
+    <div className="min-h-screen bg-slate-50 pb-20 dark:bg-slate-950">
       <Header />
-      
+
       <Container as="main" size="sm" className="pt-24">
         <div className="mb-8">
-          <Typography variant="h1">Criar Novo Serviço</Typography>
-          <Typography variant="muted" className="mt-2">Preencha as informações abaixo para oferecer seus serviços.</Typography>
+          <Typography variant="h1">
+            {isEditing ? 'Editar Serviço' : 'Criar Novo Serviço'}
+          </Typography>
+          <Typography variant="muted" className="mt-2">
+            {isEditing
+              ? 'Atualize as informações do seu serviço.'
+              : 'Preencha as informações abaixo para oferecer seus serviços.'}
+          </Typography>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Basic Info */}
-          <BasicInfoSection 
-            register={register}
-            setValue={setValue}
-            watch={watch}
-            errors={errors}
-          />
+          <BasicInfoSection register={register} setValue={setValue} watch={watch} errors={errors} />
 
           {/* Service Type & Location */}
-          <ServiceTypeSection 
+          <ServiceTypeSection
             register={register}
             setValue={setValue}
             watch={watch}
@@ -52,27 +63,27 @@ export function CreateServicePage() {
           />
 
           {/* Images */}
-          <ImageUploadSection 
-            setValue={setValue}
-            errors={errors}
-          />
+          <ImageUploadSection setValue={setValue} errors={errors} />
 
           {/* Availability */}
-          <AvailabilitySection 
-            setValue={setValue}
-            watch={watch}
-          />
+          <AvailabilitySection setValue={setValue} watch={watch} />
 
           <div className="flex justify-end gap-4 pt-4">
-            <Button type="button" variant="outline" onClick={() => navigate('/dashboard')}>
+            <Button type="button" variant="outline" onClick={() => navigate('/my-services')}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={isSubmitting || createService.isPending} className="min-w-[150px]">
+            <Button
+              type="submit"
+              disabled={isSubmitting || createService.isPending}
+              className="min-w-[150px] border-transparent bg-indigo-600 text-white hover:bg-indigo-700 dark:text-white"
+            >
               {isSubmitting || createService.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Criando...
+                  {isEditing ? 'Salvando...' : 'Criando...'}
                 </>
+              ) : isEditing ? (
+                'Salvar Alterações'
               ) : (
                 'Criar Serviço'
               )}

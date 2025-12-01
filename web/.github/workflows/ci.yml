@@ -12,22 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          
+
       - name: Install Dependencies
         run: npm ci
-        
+
       - name: Lint (ESLint)
         run: npm run lint
-        
+
       - name: Type Check (TSC)
         run: npm run type-check
-        
+
       - name: Format Check (Prettier)
         run: npm run format:check
 
@@ -36,16 +36,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          
+
       - name: Install Dependencies
         run: npm ci
-        
+
       - name: Run Unit Tests
         run: npm run test -- --run
 
@@ -55,22 +55,22 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          
+
       - name: Install Dependencies
         run: npm ci
-        
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        
+
       - name: Run Playwright Tests
         run: npm run test:e2e
-        
+
       - name: Upload Artifacts
         if: failure()
         uses: actions/upload-artifact@v4
@@ -85,15 +85,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          
+
       - name: Install Dependencies
         run: npm ci
-        
+
       - name: Build Project
         run: npm run build

@@ -8,16 +8,27 @@ export function useServiceDetails(id: string | undefined) {
     queryFn: async () => {
       if (!id) return null;
       // The interceptor unwraps the response, so 'response' is the actual data object
-      // e.g. { service: { ... } }
-      const response = await api.get<any>(`/services/${id}`);
-      
-      const data = response as any;
-      
-      if (data.service) return data.service as Service;
-      if (data.data?.service) return data.data.service as Service;
-      
+      const response = await api.get(`/services/${id}`);
+
+      const data = response as unknown as
+        | { service?: Service; data?: { service?: Service } }
+        | Service;
+
+      // Check if data is the Service object itself (has id, name, etc.)
+      if ('id' in data && 'name' in data) {
+        return data as Service;
+      }
+
+      if ('service' in data && data.service) {
+        return data.service;
+      }
+
+      if ('data' in data && data.data?.service) {
+        return data.data.service;
+      }
+
       return data as unknown as Service;
     },
-    enabled: !!id
+    enabled: !!id,
   });
 }

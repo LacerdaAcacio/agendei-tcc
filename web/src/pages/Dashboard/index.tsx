@@ -9,34 +9,29 @@ import { Calendar, Plus } from 'lucide-react';
 import { useDashboard } from './useDashboard';
 
 export function DashboardPage() {
-  const { 
-    user, 
-    signOut, 
-    appointments, 
-    isLoading, 
-    error, 
-    navigate, 
-    getStatusVariant 
-  } = useDashboard();
+  const { user, signOut, appointments, isLoading, error, navigate, getStatusVariant } =
+    useDashboard();
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white dark:bg-slate-900 shadow dark:border-b dark:border-slate-800">
-        <Container className="py-4 flex justify-between items-center">
+      <header className="bg-white shadow dark:border-b dark:border-slate-800 dark:bg-slate-900">
+        <Container className="flex items-center justify-between py-4">
           <Typography variant="h2">Agendei</Typography>
           <div className="flex items-center gap-4">
             <Typography variant="muted">Olá, {user?.name}</Typography>
-            <Button variant="outline" onClick={signOut}>Sair</Button>
+            <Button variant="outline" onClick={signOut}>
+              Sair
+            </Button>
           </div>
         </Container>
       </header>
 
       <Container as="main" className="py-8">
-        <div className="mb-6 flex justify-between items-center">
+        <div className="mb-6 flex items-center justify-between">
           <Typography variant="h3">Meus Agendamentos</Typography>
           <Link to="/appointments/new">
             <Button>
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               Novo Agendamento
             </Button>
           </Link>
@@ -66,16 +61,16 @@ export function DashboardPage() {
         ) : !appointments || appointments.length === 0 ? (
           <Card className="border-dashed">
             <CardContent className="py-16 text-center">
-              <Calendar className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <Calendar className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">
                 Nenhum agendamento encontrado
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="mb-6 text-gray-600">
                 Você ainda não possui agendamentos. Crie seu primeiro agendamento agora!
               </p>
               <Link to="/appointments/new">
                 <Button>
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="mr-2 h-4 w-4" />
                   Criar Primeiro Agendamento
                 </Button>
               </Link>
@@ -86,11 +81,11 @@ export function DashboardPage() {
             {appointments.map((appointment) => (
               <Card
                 key={appointment.id}
-                className="hover:shadow-lg transition-shadow cursor-pointer"
+                className="cursor-pointer transition-shadow hover:shadow-lg"
                 onClick={() => navigate(`/appointments/${appointment.id}`)}
               >
                 <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="mb-2 flex items-start justify-between">
                     <CardTitle className="text-lg">{appointment.serviceName}</CardTitle>
                     <Badge variant={getStatusVariant(appointment.status)}>
                       {appointment.status}
@@ -100,7 +95,7 @@ export function DashboardPage() {
                 <CardContent>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="h-4 w-4" />
                       <span>
                         {new Date(appointment.date).toLocaleDateString('pt-BR', {
                           day: '2-digit',
@@ -116,7 +111,7 @@ export function DashboardPage() {
                       })}
                     </div>
                     {appointment.description && (
-                      <p className="text-sm text-gray-500 line-clamp-2 mt-2">
+                      <p className="mt-2 line-clamp-2 text-sm text-gray-500">
                         {appointment.description}
                       </p>
                     )}

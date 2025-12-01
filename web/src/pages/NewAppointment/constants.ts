@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import type { TFunction } from 'i18next';
 
-export const createAppointmentSchema = (t: any) =>
+export const createAppointmentSchema = (t: TFunction) =>
   z.object({
     serviceName: z.string().min(3, t('validation.service.minLength', { min: 3 })),
     date: z.string().refine((val) => new Date(val) > new Date(), {

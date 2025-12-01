@@ -9,7 +9,12 @@ export class BookingsRepository {
     });
   }
 
-  async findConflictingBooking(serviceId: string, startDate: Date, endDate: Date, excludeBookingId?: string): Promise<Booking | null> {
+  async findConflictingBooking(
+    serviceId: string,
+    startDate: Date,
+    endDate: Date,
+    excludeBookingId?: string,
+  ): Promise<Booking | null> {
     return await prisma.booking.findFirst({
       where: {
         serviceId,
@@ -17,8 +22,8 @@ export class BookingsRepository {
         ...(excludeBookingId && { id: { not: excludeBookingId } }),
         OR: [
           {
-            startDate: { lte: endDate },
-            endDate: { gte: startDate },
+            startDate: { lt: endDate },
+            endDate: { gt: startDate },
           },
         ],
       },

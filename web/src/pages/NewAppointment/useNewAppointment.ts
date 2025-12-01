@@ -1,5 +1,6 @@
+import { isAxiosError } from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,7 +20,7 @@ export function useNewAppointment() {
     formState: { errors, isSubmitting },
     setError,
   } = useForm<AppointmentFormInputs>({
-    resolver: zodResolver(appointmentSchema) as any,
+    resolver: zodResolver(appointmentSchema) as Resolver<AppointmentFormInputs>,
     defaultValues: {
       duration: 60,
       serviceName: '',
@@ -43,10 +44,16 @@ export function useNewAppointment() {
 
       await api.post('/appointments', payload);
       navigate('/');
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
+      let message = t('errors.appointmentFailed');
+
+      if (isAxiosError(error) && error.response?.data?.message) {
+        message = error.response.data.message;
+      }
+
       setError('root', {
-        message: error.response?.data?.message || t('errors.appointmentFailed'),
+        message,
       });
     }
   };

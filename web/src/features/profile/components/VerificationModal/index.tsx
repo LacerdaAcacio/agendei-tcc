@@ -1,4 +1,11 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -15,15 +22,15 @@ export function VerificationModal({ open, onOpenChange }: VerificationModalProps
     isLoading,
     handleDocChange,
     handleSelfieChange,
-    handleSubmit
+    handleSubmit,
   } = useVerificationModal(onOpenChange);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-blue-600" />
+            <ShieldCheck className="h-5 w-5 text-blue-600" />
             Verificação de Conta
           </DialogTitle>
           <DialogDescription>
@@ -35,27 +42,31 @@ export function VerificationModal({ open, onOpenChange }: VerificationModalProps
           {/* Document Upload */}
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
+              <FileText className="h-4 w-4" />
               Frente do Documento (RG ou CNH)
             </Label>
-            <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-colors cursor-pointer relative h-48">
-              <Input 
-                type="file" 
-                accept="image/*" 
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            <div className="relative flex h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 transition-colors hover:bg-gray-50">
+              <Input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                 onChange={handleDocChange}
               />
               {docPreview ? (
-                <div className="relative w-full h-full">
-                  <img src={docPreview} alt="Document Preview" className="w-full h-full object-contain rounded-md" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-md">
-                    <p className="text-white font-medium">Trocar imagem</p>
+                <div className="relative h-full w-full">
+                  <img
+                    src={docPreview}
+                    alt="Document Preview"
+                    className="h-full w-full rounded-md object-contain"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                    <p className="font-medium text-white">Trocar imagem</p>
                   </div>
                 </div>
               ) : (
-                <div className="text-center space-y-2">
-                  <div className="bg-blue-100 p-3 rounded-full inline-block">
-                    <Upload className="w-6 h-6 text-blue-600" />
+                <div className="space-y-2 text-center">
+                  <div className="inline-block rounded-full bg-blue-100 p-3">
+                    <Upload className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="text-sm font-medium">Clique para enviar foto do documento</div>
                   <div className="text-xs text-gray-500">JPG ou PNG</div>
@@ -67,45 +78,54 @@ export function VerificationModal({ open, onOpenChange }: VerificationModalProps
           {/* Selfie Upload */}
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
-              <Camera className="w-4 h-4" />
+              <Camera className="h-4 w-4" />
               Selfie com o Documento
             </Label>
-            <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-colors cursor-pointer relative h-48">
-              <Input 
-                type="file" 
-                accept="image/*" 
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            <div className="relative flex h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 transition-colors hover:bg-gray-50">
+              <Input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                 onChange={handleSelfieChange}
               />
               {selfiePreview ? (
-                <div className="relative w-full h-full">
-                  <img src={selfiePreview} alt="Selfie Preview" className="w-full h-full object-contain rounded-md" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-md">
-                    <p className="text-white font-medium">Trocar imagem</p>
+                <div className="relative h-full w-full">
+                  <img
+                    src={selfiePreview}
+                    alt="Selfie Preview"
+                    className="h-full w-full rounded-md object-contain"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                    <p className="font-medium text-white">Trocar imagem</p>
                   </div>
                 </div>
               ) : (
-                <div className="text-center space-y-2">
-                  <div className="bg-blue-100 p-3 rounded-full inline-block">
-                    <Upload className="w-6 h-6 text-blue-600" />
+                <div className="space-y-2 text-center">
+                  <div className="inline-block rounded-full bg-blue-100 p-3">
+                    <Upload className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="text-sm font-medium">Clique para enviar sua selfie</div>
-                  <div className="text-xs text-gray-500">Certifique-se que seu rosto está visível</div>
+                  <div className="text-xs text-gray-500">
+                    Certifique-se que seu rosto está visível
+                  </div>
                 </div>
               )}
             </div>
           </div>
-          
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 flex gap-3 items-start">
-            <AlertCircle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+
+          <div className="flex items-start gap-3 rounded-md border border-yellow-200 bg-yellow-50 p-3">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-600" />
             <p className="text-xs text-yellow-700">
-              Seus documentos são armazenados de forma segura e usados apenas para verificação de identidade.
+              Seus documentos são armazenados de forma segura e usados apenas para verificação de
+              identidade.
             </p>
           </div>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancelar
+          </Button>
           <Button onClick={handleSubmit} disabled={!docFile || !selfieFile || isLoading}>
             {isLoading ? 'Enviando...' : 'Enviar Documentos'}
           </Button>

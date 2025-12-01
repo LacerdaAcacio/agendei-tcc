@@ -37,14 +37,18 @@ export class BookingsService {
     }
 
     // 3. Check Conflicts (Overbooking)
-    const conflictingBooking = await this.bookingsRepository.findConflictingBooking(serviceId, start, end);
+    const conflictingBooking = await this.bookingsRepository.findConflictingBooking(
+      serviceId,
+      start,
+      end,
+    );
     if (conflictingBooking) {
       throw new AppError('Selected dates are not available', 409);
     }
 
     // 4. Calculate Financials
     const diffTime = Math.abs(end.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     // Ensure at least 1 day charged if it's a daily rate, or logic depends on type.
     // Assuming daily rate for simplicity as per prompt "diff(endDate, startDate)"
     const daysToCharge = diffDays > 0 ? diffDays : 1;
@@ -97,7 +101,11 @@ export class BookingsService {
     return await this.bookingsRepository.updateStatus(bookingId, 'CANCELLED');
   }
 
-  async updateBooking(bookingId: string, userId: string, data: { startDate: string; endDate: string }): Promise<Booking> {
+  async updateBooking(
+    bookingId: string,
+    userId: string,
+    data: { startDate: string; endDate: string },
+  ): Promise<Booking> {
     const { startDate, endDate } = data;
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -127,26 +135,32 @@ export class BookingsService {
     }
 
     // 5. Check Conflicts (Excluding current booking)
-    const conflictingBooking = await this.bookingsRepository.findConflictingBooking(booking.serviceId, start, end, bookingId);
+    // IMPORTANT: We must exclude the current booking ID to avoid self-collision
+    const conflictingBooking = await this.bookingsRepository.findConflictingBooking(
+      booking.serviceId,
+      start,
+      end,
+      bookingId,
+    );
     if (conflictingBooking) {
       throw new AppError('Selected dates are not available', 409);
     }
 
-    // 6. Recalculate Financials (Simplified: assuming price per day/period logic remains same)
-    // We need to fetch service to get current price or use booking's historical price? 
-    // Usually rescheduling uses current service price or keeps original rate. 
-    // Let's fetch service to be safe and use current price.
+    // 6. Recalculate Financials
+    // Fetch service to get current price details
     const service = await this.servicesRepository.findById(booking.serviceId);
     if (!service) {
       throw new AppError('Service not found', 404);
     }
 
+    // Calculate duration in days (rounding up)
     const diffTime = Math.abs(end.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const daysToCharge = diffDays > 0 ? diffDays : 1;
 
+    // Recalculate values
     const subTotal = service.price * daysToCharge;
-    const serviceFee = subTotal * 0.12;
+    const serviceFee = subTotal * 0.12; // 12% platform fee
     const totalPrice = subTotal + serviceFee;
     const providerEarnings = subTotal;
 

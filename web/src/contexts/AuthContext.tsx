@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, AuthResponse } from '@/types';
 
 interface AuthContextType {
@@ -22,7 +22,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const storedToken = localStorage.getItem('@agendei:token');
 
       if (storedUser && storedToken) {
-        setUser(JSON.parse(storedUser));
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (error) {
+          console.error('Failed to parse stored user:', error);
+          localStorage.removeItem('@agendei:user');
+          localStorage.removeItem('@agendei:token');
+        }
       }
       setIsLoading(false);
     };
@@ -48,16 +54,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, signIn, signOut, updateUser, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated: !!user, signIn, signOut, updateUser, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}
+export { AuthContext };

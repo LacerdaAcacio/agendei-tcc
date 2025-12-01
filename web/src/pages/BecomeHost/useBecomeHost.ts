@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { api } from '@/lib/axios';
+import type { User } from '@/types';
 
 export function useBecomeHost() {
   const { t } = useTranslation();
@@ -24,7 +25,10 @@ export function useBecomeHost() {
       });
 
       // Update local auth state
-      const updatedUser = (response as any).user || (response as any).data?.user || response;
+      const updatedUser =
+        (response as unknown as { user: User }).user ||
+        (response as unknown as { data: { user: User } }).data?.user ||
+        response;
       const token = localStorage.getItem('@agendei:token');
 
       if (token && updatedUser) {

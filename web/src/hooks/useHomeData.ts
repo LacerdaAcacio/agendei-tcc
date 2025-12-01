@@ -6,8 +6,8 @@ export function useHomeData() {
   return useQuery({
     queryKey: ['home-data'],
     queryFn: async () => {
-      const data = await api.get<HomeData>('/home') as unknown as HomeData;
+      const data = (await api.get<HomeData>('/home')) as unknown as HomeData;
       return data || { categories: [], featuredServices: [] };
-    }
+    },
   });
 }

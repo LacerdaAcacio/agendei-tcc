@@ -7,8 +7,11 @@ export const useAppointment = (id: string) => {
     queryKey: ['appointment', id],
     queryFn: async () => {
       const response = await api.get(`/appointments/${id}`);
-      const data = response as any;
-      return (data?.appointment || data) as Appointment;
+      const data = response as unknown as { appointment: Appointment } | Appointment;
+      if ('appointment' in data) {
+        return data.appointment;
+      }
+      return data;
     },
     enabled: !!id,
   });

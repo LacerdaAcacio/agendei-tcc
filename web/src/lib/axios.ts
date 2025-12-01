@@ -13,16 +13,16 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('@agendei:token');
-    
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response Interceptor: Unwrap Data
@@ -40,9 +40,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('@agendei:token');
       localStorage.removeItem('@agendei:user');
-      // Optional: window.location.href = '/login'; 
+      // Optional: window.location.href = '/login';
       // Better to handle this in the AuthContext or Router
     }
     return Promise.reject(error);
-  }
+  },
 );

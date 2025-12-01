@@ -19,9 +19,17 @@ export class SlotsService {
    */
   async getAvailableSlots(serviceId: string, date: string): Promise<string[]> {
     // Validate date format
-    const targetDate = new Date(date);
-    if (isNaN(targetDate.getTime())) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
       throw new AppError('Invalid date format. Use YYYY-MM-DD', 400);
+    }
+
+    // Timezone Safety: Parse YYYY-MM-DD explicitly to Local Time Midnight
+    const [year, month, day] = date.split('-').map(Number);
+    const targetDate = new Date(year, month - 1, day);
+
+    // Validate if date is valid
+    if (isNaN(targetDate.getTime())) {
+      throw new AppError('Invalid date', 400);
     }
 
     // Fetch service details
@@ -42,9 +50,7 @@ export class SlotsService {
     // Parse availability schedule
     let availabilitySchedule: AvailabilitySchedule = {};
     try {
-      availabilitySchedule = service.availability 
-        ? JSON.parse(service.availability) 
-        : {};
+      availabilitySchedule = service.availability ? JSON.parse(service.availability) : {};
     } catch (error) {
       throw new AppError('Invalid availability configuration', 500);
     }
@@ -60,17 +66,15 @@ export class SlotsService {
       return []; // Day is not available for bookings
     }
 
-    // Fetch existing bookings for this service on this date
+    // Define Start and End of Day for Query
     const startOfDay = new Date(targetDate);
     startOfDay.setHours(0, 0, 0, 0);
-    
+
     const endOfDay = new Date(targetDate);
     endOfDay.setHours(23, 59, 59, 999);
 
     // Fetch existing bookings that overlap with the day
     // Overlap logic: (StartA < EndB) and (EndA > StartB)
-    // We want bookings where:
-    // BookingStart < DayEnd AND BookingEnd > DayStart
     const existingBookings = await prisma.booking.findMany({
       where: {
         serviceId,
@@ -91,7 +95,7 @@ export class SlotsService {
       service.duration,
       service.bufferTime,
       targetDate,
-      existingBookings
+      existingBookings,
     );
 
     return slots;
@@ -106,11 +110,11 @@ export class SlotsService {
     duration: number,
     bufferTime: number,
     targetDate: Date,
-    existingBookings: Array<{ startDate: Date; endDate: Date }>
+    existingBookings: Array<{ startDate: Date; endDate: Date }>,
   ): string[] {
     const slots: string[] = [];
     const now = new Date();
-    
+
     // Ensure targetDate is set to the beginning of the day
     const baseDate = new Date(targetDate);
     baseDate.setHours(0, 0, 0, 0);
@@ -143,14 +147,14 @@ export class SlotsService {
 
       // Robust Collision Detection
       // Formula: slotStart < bookingEnd && slotEnd > bookingStart
-      const isBusy = existingBookings.some((booking) => {
+      const isOccupied = existingBookings.some((booking) => {
         const bookingStart = new Date(booking.startDate);
         const bookingEnd = new Date(booking.endDate);
 
         return currentSlotStart < bookingEnd && slotEnd > bookingStart;
       });
 
-      if (!isBusy) {
+      if (!isOccupied) {
         slots.push(this.formatTime(currentSlotStart));
       }
 

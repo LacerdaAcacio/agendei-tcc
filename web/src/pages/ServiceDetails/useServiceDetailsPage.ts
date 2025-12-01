@@ -1,13 +1,15 @@
+import { isAxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { useServiceDetails } from '@/hooks/useServiceDetails';
 import { useUserWishlist } from '@/hooks/useWishlist';
 import { api } from '@/lib/axios';
+import type { User } from '@/types';
 
 export function useServiceDetailsPage() {
   const { id } = useParams();
@@ -28,7 +30,7 @@ export function useServiceDetailsPage() {
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   // User profile modal state
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // Wishlist
   const { wishlistIds, toggleWishlist } = useUserWishlist();
@@ -61,8 +63,8 @@ export function useServiceDetailsPage() {
       queryClient.invalidateQueries({ queryKey: ['slots'] });
 
       navigate('/my-bookings');
-    } catch (error: any) {
-      if (error.response?.status === 409) {
+    } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 409) {
         toast.error('Este horário já foi reservado. Tente outro.');
         // Also invalidate slots here to show the taken slot
         queryClient.invalidateQueries({ queryKey: ['slots'] });

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { useUserAppointments } from '@/features/appointments/hooks/useUserAppointments';
 import type { AppointmentStatus } from '@/types';
 

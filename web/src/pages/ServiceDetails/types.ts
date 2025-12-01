@@ -3,7 +3,7 @@ export interface ServiceHeaderProps {
     title: string;
     rating?: number;
     reviewCount?: number;
-    location: string;
+    location?: string;
   };
   isFavorited: boolean;
   onToggleFavorite: () => void;

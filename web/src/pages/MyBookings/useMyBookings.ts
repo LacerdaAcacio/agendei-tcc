@@ -14,7 +14,7 @@ export function useMyBookings() {
     queryKey: ['my-bookings'],
     queryFn: async () => {
       const response = await api.get('/bookings');
-      return (response as any).bookings as Booking[];
+      return (response as unknown as BookingsResponse).bookings;
     },
   });
 

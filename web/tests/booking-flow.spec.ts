@@ -14,48 +14,47 @@ const readFixture = (filename: string) => {
 const servicesData = readFixture('services.json');
 const serviceDetailsData = readFixture('service-details.json');
 const slotsData = readFixture('slots.json');
-const userData = readFixture('user.json');
 
 test.describe('Booking Flow', () => {
   test.beforeEach(async ({ page }) => {
     // Mock Home Page Data
-    await page.route('**/api/home', async (route) => {
+    await page.route('**/api/v1/home', async (route) => {
       console.error('Mocking /api/home');
       await route.fulfill({
         json: {
           categories: [
-            { id: 'cleaning', name: 'Limpeza', icon: 'Sparkles' },
-            { id: 'maintenance', name: 'Manutenção', icon: 'Wrench' }
+            { id: 'cleaning', name: 'Limpeza', icon: 'Sparkles', services: servicesData.data.services },
+            { id: 'maintenance', name: 'Manutenção', icon: 'Wrench' },
           ],
-          featuredServices: servicesData.data.services
-        }
+          featuredServices: servicesData.data.services,
+        },
       });
     });
 
     // Mock Services List
-    await page.route('**/api/services', async (route) => {
+    await page.route('**/api/v1/services', async (route) => {
       console.error('Mocking /api/services');
       await route.fulfill({ json: servicesData });
     });
 
     // Mock Service Details
-    await page.route('**/api/services/service-1', async (route) => {
+    await page.route('**/api/v1/services/service-1', async (route) => {
       console.error('Mocking /api/services/service-1');
       await route.fulfill({ json: serviceDetailsData });
     });
 
     // Mock Slots
-    await page.route('**/api/services/service-1/slots*', async (route) => {
+    await page.route('**/api/v1/services/service-1/slots*', async (route) => {
       console.error('Mocking /api/services/service-1/slots');
       await route.fulfill({ json: slotsData });
     });
 
     // Mock Booking Creation
-    await page.route('**/api/bookings', async (route) => {
+    await page.route('**/api/v1/bookings', async (route) => {
       console.error('Mocking /api/bookings');
       await route.fulfill({
         status: 201,
-        json: { status: 'success', data: { id: 'booking-1' } }
+        json: { status: 'success', data: { id: 'booking-1' } },
       });
     });
   });
@@ -65,15 +64,15 @@ test.describe('Booking Flow', () => {
     // 1. Navigate to Home
     await page.goto('/');
     console.log('Navigated to home');
-    
+
     // Verify Home loaded
-    await expect(page.getByText('Encontre o serviço ideal')).toBeVisible();
+    await expect(page.getByText('Buscar')).toBeVisible();
     console.log('Home verified');
 
     // 2. Click on Service
     await page.getByText('Limpeza Residencial Premium').click();
     console.log('Clicked service');
-    
+
     // Verify Service Details loaded
     await expect(page).toHaveURL(/\/services\/service-1/);
     console.log('Service details URL verified');
@@ -83,28 +82,28 @@ test.describe('Booking Flow', () => {
     // Open calendar
     await page.getByRole('button', { name: /adicionar data/i }).click();
     console.error('Clicked open calendar');
-    
+
     // Wait for calendar to be visible
     await expect(page.getByRole('dialog')).toBeVisible();
     console.error('Calendar visible');
-    
+
     // Click a day
     // Try to find any enabled day button
     const dayButton = page.locator('.rdp-day:not([disabled])').first();
-    
-    if (await dayButton.count() > 0) {
-        await dayButton.click();
-        console.error('Clicked day');
+
+    if ((await dayButton.count()) > 0) {
+      await dayButton.click();
+      console.error('Clicked day');
     } else {
-        console.error('No enabled day found, trying next month');
-        await page.getByRole('button', { name: 'Next month' }).click();
-        await page.locator('.rdp-day:not([disabled])').first().click();
+      console.error('No enabled day found, trying next month');
+      await page.getByRole('button', { name: 'Next month' }).click();
+      await page.locator('.rdp-day:not([disabled])').first().click();
     }
 
     // 4. Select Time
     // Wait for slots to load
     await expect(page.getByText('09:00')).toBeVisible();
-    
+
     // Click time slot
     await page.getByText('09:00').click();
 
@@ -119,11 +118,14 @@ test.describe('Booking Flow', () => {
     // Mock Authenticated User
     await page.addInitScript(() => {
       window.localStorage.setItem('@agendei:token', 'fake-token');
-      window.localStorage.setItem('@agendei:user', JSON.stringify({
-        id: 'user-1',
-        name: 'Test User',
-        email: 'test@example.com'
-      }));
+      window.localStorage.setItem(
+        '@agendei:user',
+        JSON.stringify({
+          id: 'user-1',
+          name: 'Test User',
+          email: 'test@example.com',
+        }),
+      );
     });
 
     // 1. Navigate to Service Page directly

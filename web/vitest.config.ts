@@ -1,6 +1,6 @@
-import { defineConfig, mergeConfig } from 'vite'
-import { configDefaults } from 'vitest/config'
-import viteConfig from './vite.config'
+import { defineConfig, mergeConfig } from 'vite';
+import { configDefaults } from 'vitest/config';
+import viteConfig from './vite.config';
 
 export default mergeConfig(
   viteConfig,
@@ -10,7 +10,7 @@ export default mergeConfig(
       environment: 'jsdom',
       setupFiles: ['./src/test/setup.ts'],
       css: true,
-      exclude: [...configDefaults.exclude, 'e2e/*'],
+      exclude: [...configDefaults.exclude, 'e2e/*', 'tests/**'],
       coverage: {
         provider: 'v8',
         reporter: ['text', 'json', 'html'],
@@ -24,5 +24,5 @@ export default mergeConfig(
         ],
       },
     },
-  })
-)
+  }),
+);

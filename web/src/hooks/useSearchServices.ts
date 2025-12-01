@@ -18,24 +18,28 @@ export function useSearchServices(filters: SearchFilters) {
     queryFn: async () => {
       // Remove undefined/empty keys
       const params = Object.fromEntries(
-        Object.entries(filters).filter(([_, v]) => v != null && v !== '')
+        Object.entries(filters).filter(([, v]) => v != null && v !== ''),
       );
-      
-      // The API returns { status: 'success', data: { services: [...] } }
-      // Axios interceptor might unwrap the first 'data', so we get { status: 'success', data: { services: [...] } } or just { services: [...] } depending on interceptor
-      // Let's assume the interceptor returns the response.data
-      
-      const response = await api.get<any>('/services/search', { params });
-      
+
+      const response = await api.get('/services/search', { params });
+
       // Handle various possible structures safely
-      const data = response as any;
-      
-      if (data.services) return data.services as Service[];
-      if (data.data?.services) return data.data.services as Service[];
-      if (Array.isArray(data)) return data as Service[];
-      
-      return [] as Service[];
+      const data = response as unknown as
+        | { services?: Service[]; data?: { services?: Service[] } }
+        | Service[];
+      const servicesData = Array.isArray(data)
+        ? data
+        : data && typeof data === 'object' && 'services' in data
+          ? (data as { services: Service[] }).services
+          : data &&
+              typeof data === 'object' &&
+              'data' in data &&
+              Array.isArray((data as { data: unknown }).data)
+            ? (data as { data: Service[] }).data
+            : [];
+
+      return servicesData as Service[];
     },
-    enabled: Object.values(filters).some(v => v !== undefined && v !== '')
+    enabled: Object.values(filters).some((v) => v !== undefined && v !== ''),
   });
 }

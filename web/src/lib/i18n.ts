@@ -7,25 +7,23 @@ import es from '@/locales/es.json';
 
 const resources = {
   pt: {
-    translation: pt
+    translation: pt,
   },
   en: {
-    translation: en
+    translation: en,
   },
   es: {
-    translation: es
-  }
+    translation: es,
+  },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'pt', // Default language
-    fallbackLng: 'pt',
-    interpolation: {
-      escapeValue: false // React already escapes values
-    }
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'pt', // Default language
+  fallbackLng: 'pt',
+  interpolation: {
+    escapeValue: false, // React already escapes values
+  },
+});
 
 export default i18n;

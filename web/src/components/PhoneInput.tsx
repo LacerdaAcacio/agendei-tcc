@@ -11,19 +11,19 @@ interface PhoneInputProps {
 
 export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   ({ value, onChange, error, placeholder, id, ...props }, ref) => {
-    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let val = e.target.value.replace(/\D/g, '');
       if (val.length > 11) val = val.slice(0, 11);
-      
+
       // Simple masking (99) 99999-9999
       if (val.length > 2) {
         val = `(${val.slice(0, 2)}) ${val.slice(2)}`;
       }
       if (val.length > 9) {
-        val = `${val.slice(0, 9)}-${val.slice(9)}`;
+        //tá apresentando assim: (32) 1-31231231, teria que ser: (32) 13213-1233
+        val = `${val.slice(0, 10)}-${val.slice(10)}`;
       }
-      
+
       e.target.value = val;
       if (onChange) onChange(e);
     };
@@ -41,7 +41,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
         maxLength={15}
       />
     );
-  }
+  },
 );
 
 PhoneInput.displayName = 'PhoneInput';

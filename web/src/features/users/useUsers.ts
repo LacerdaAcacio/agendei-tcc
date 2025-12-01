@@ -8,7 +8,7 @@ export const useUsers = () => {
     queryFn: async () => {
       const response = await api.get('/users');
       // API returns { users: [] } after unwrapping by interceptor
-      const data = response as any;
+      const data = response as unknown as { users: User[] };
       return (data?.users || []) as User[];
     },
   });

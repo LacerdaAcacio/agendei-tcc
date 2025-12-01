@@ -8,34 +8,37 @@ export function ImageUploadSection({ setValue, errors }: ImageUploadSectionProps
   const { images, isUploading, handleImageUpload, removeImage } = useImageUpload(setValue);
 
   return (
-    <Card className="bg-white dark:bg-slate-900 border dark:border-slate-800">
+    <Card className="border bg-white dark:border-slate-800 dark:bg-slate-900">
       <CardHeader>
         <CardTitle>Fotos</CardTitle>
         <CardDescription>Adicione até {MAX_IMAGES} fotos para mostrar seu serviço</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+        <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-5">
           {images.map((img, index) => (
-            <div key={index} className="relative aspect-square rounded-lg overflow-hidden group border">
-              <img src={img} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+            <div
+              key={index}
+              className="group relative aspect-square overflow-hidden rounded-lg border"
+            >
+              <img src={img} alt={`Preview ${index}`} className="h-full w-full object-cover" />
               <button
                 type="button"
                 onClick={() => removeImage(index)}
-                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute right-1 top-1 rounded-full bg-red-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
               >
-                <X className="w-3 h-3" />
+                <X className="h-3 w-3" />
               </button>
             </div>
           ))}
           {images.length < MAX_IMAGES && (
-            <label className="border-2 border-dashed border-gray-300 rounded-lg aspect-square flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors">
-              <Upload className="w-6 h-6 text-gray-400 mb-2" />
-              <span className="text-xs text-gray-500 font-medium">Adicionar Foto</span>
-              <input 
-                type="file" 
-                accept="image/*" 
-                multiple 
-                className="hidden" 
+            <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition-colors hover:border-primary hover:bg-primary/5">
+              <Upload className="mb-2 h-6 w-6 text-gray-400" />
+              <span className="text-xs font-medium text-gray-500">Adicionar Foto</span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
                 onChange={handleImageUpload}
                 disabled={isUploading}
               />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import zxcvbn from 'zxcvbn';
 
@@ -8,15 +8,10 @@ interface PasswordStrengthIndicatorProps {
 
 export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicatorProps) {
   const { t } = useTranslation();
-  const [strength, setStrength] = useState(0);
 
-  useEffect(() => {
-    if (password) {
-      const result = zxcvbn(password);
-      setStrength(result.score);
-    } else {
-      setStrength(0);
-    }
+  const strength = useMemo(() => {
+    if (!password) return 0;
+    return zxcvbn(password).score;
   }, [password]);
 
   if (!password) return null;
@@ -57,15 +52,13 @@ export function PasswordStrengthIndicator({ password }: PasswordStrengthIndicato
 
   return (
     <div className="space-y-1">
-      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
         <div
           className={`h-full transition-all duration-300 ${getStrengthColor()}`}
           style={{ width: getStrengthWidth() }}
         />
       </div>
-      <p className="text-xs text-gray-600 dark:text-gray-400">
-        {getStrengthText()}
-      </p>
+      <p className="text-xs text-gray-600 dark:text-gray-400">{getStrengthText()}</p>
     </div>
   );
 }

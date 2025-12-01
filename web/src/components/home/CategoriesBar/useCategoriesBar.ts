@@ -24,10 +24,6 @@ export function useCategoriesBar(filterType: 'presential' | 'digital') {
   }, [filterType]);
 
   const onSelectCategory = (id: string) => {
-    if (id === 'favoritos') {
-      window.location.href = '/wishlists';
-      return;
-    }
     const newParams = new URLSearchParams(searchParams);
     if (selectedCategory === id) {
       newParams.delete('category');

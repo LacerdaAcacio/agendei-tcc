@@ -1,16 +1,10 @@
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Moon, Sun, LogOut, Globe } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from './ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -32,7 +26,7 @@ export function Header() {
   };
 
   return (
-    <header className="border-b bg-white dark:bg-gray-950 dark:border-gray-800">
+    <header className="border-b bg-white dark:border-gray-800 dark:bg-gray-950">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -45,7 +39,7 @@ export function Header() {
             {/* Language Switcher */}
             <Select value={i18n.language} onValueChange={handleLanguageChange}>
               <SelectTrigger className="w-[140px]">
-                <Globe className="h-4 w-4 mr-2" />
+                <Globe className="mr-2 h-4 w-4" />
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -62,18 +56,12 @@ export function Header() {
               onClick={toggleTheme}
               title={t('header.theme.toggle')}
             >
-              {theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
+              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
 
             {/* User Info */}
-            <div className="hidden sm:flex items-center space-x-2">
-              <span className="text-sm text-gray-700 dark:text-gray-300">
-                {user?.name}
-              </span>
+            <div className="hidden items-center space-x-2 sm:flex">
+              <span className="text-sm text-gray-700 dark:text-gray-300">{user?.name}</span>
             </div>
 
             {/* Logout Button */}

@@ -1,9 +1,10 @@
+import { isAxiosError } from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { api } from '@/lib/axios';
 import type { AuthResponse } from '@/types';
 
@@ -22,7 +23,7 @@ export function useLogin() {
     formState: { errors, isSubmitting },
     setError,
   } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema) as any,
+    resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data: LoginFormInputs) => {
@@ -32,10 +33,16 @@ export function useLogin() {
 
       signIn(authData);
       navigate('/');
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
+      let message = t('errors.loginFailed');
+
+      if (isAxiosError(error) && error.response?.data?.message) {
+        message = error.response.data.message;
+      }
+
       setError('root', {
-        message: error.response?.data?.message || t('errors.loginFailed'),
+        message,
       });
     }
   };

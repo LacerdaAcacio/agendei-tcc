@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 import { toast } from 'sonner';
 import type { Service } from '@/types';
 import { useMemo } from 'react';
@@ -15,7 +15,7 @@ export function useUserWishlist() {
       if (!user) return [];
       try {
         const response = await api.get('/users/wishlist');
-        
+
         // The API might return data directly in response.data or in response.data.data
         // First try response.data.data (envelope pattern)
         if (response.data?.data && Array.isArray(response.data.data)) {
@@ -41,7 +41,7 @@ export function useUserWishlist() {
   });
 
   const wishlistIds = useMemo(() => {
-    return services.map(service => service.id);
+    return services.map((service) => service.id);
   }, [services]);
 
   const toggleMutation = useMutation({
@@ -59,8 +59,8 @@ export function useUserWishlist() {
       // Adding requires the full object, which we don't have here.
       // So we will filter out if removing, but just wait for invalidation if adding.
       queryClient.setQueryData<Service[]>(['wishlist'], (old = []) => {
-        if (old.find(s => s.id === serviceId)) {
-          return old.filter(s => s.id !== serviceId);
+        if (old.find((s) => s.id === serviceId)) {
+          return old.filter((s) => s.id !== serviceId);
         }
         // If adding, we can't add without the object, so we return old and wait for invalidation.
         return old;

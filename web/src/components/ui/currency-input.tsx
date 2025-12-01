@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { DollarSign } from 'lucide-react';
 
@@ -8,37 +8,49 @@ interface CurrencyInputProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
 }
 
 export function CurrencyInput({ value, onChange, className, ...props }: CurrencyInputProps) {
-  const [displayValue, setDisplayValue] = useState('');
+  const [internalValue, setInternalValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
-  useEffect(() => {
-    if (value !== undefined) {
-      // Format initial value
-      const formatted = new Intl.NumberFormat('pt-BR', {
+  // Use internal value while focused,otherwise format the prop value
+  const displayValue = isFocused
+    ? internalValue
+    : new Intl.NumberFormat('pt-BR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-      }).format(value);
-      setDisplayValue(formatted);
-    }
-  }, [value]);
+      }).format(value || 0);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    setInternalValue(
+      new Intl.NumberFormat('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value || 0),
+    );
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/\D/g, '');
-    
+
     if (!rawValue) {
-      setDisplayValue('');
+      setInternalValue('');
       onChange(0);
       return;
     }
 
     const numericValue = parseFloat(rawValue) / 100;
-    
+
     // Update display
     const formatted = new Intl.NumberFormat('pt-BR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(numericValue);
-    
-    setDisplayValue(formatted);
+
+    setInternalValue(formatted);
     onChange(numericValue);
   };
 
@@ -51,7 +63,9 @@ export function CurrencyInput({ value, onChange, className, ...props }: Currency
         inputMode="numeric"
         value={displayValue}
         onChange={handleChange}
-        className={`pl-9 ${className}`}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        className={`pl-9 ${className || ''}`}
         placeholder="0,00"
       />
     </div>

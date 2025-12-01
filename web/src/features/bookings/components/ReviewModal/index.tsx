@@ -1,20 +1,25 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Star } from 'lucide-react';
 import { toast } from 'sonner';
-import { api } from '@/lib/axios';
 
 interface ReviewModalProps {
-  bookingId: string;
   serviceTitle: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function ReviewModal({ bookingId, serviceTitle, open, onOpenChange }: ReviewModalProps) {
+export function ReviewModal({ serviceTitle, open, onOpenChange }: ReviewModalProps) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -30,10 +35,10 @@ export function ReviewModal({ bookingId, serviceTitle, open, onOpenChange }: Rev
     try {
       // Mock API call - in real app would be POST /reviews
       // await api.post('/reviews', { bookingId, rating, comment });
-      
+
       // Simulating network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       toast.success('Avaliação enviada com sucesso! Obrigado pelo feedback.');
       onOpenChange(false);
       setRating(0);
@@ -51,9 +56,7 @@ export function ReviewModal({ bookingId, serviceTitle, open, onOpenChange }: Rev
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Avaliar Serviço</DialogTitle>
-          <DialogDescription>
-            Como foi sua experiência com "{serviceTitle}"?
-          </DialogDescription>
+          <DialogDescription>Como foi sua experiência com "{serviceTitle}"?</DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-6 py-4">
@@ -64,27 +67,27 @@ export function ReviewModal({ bookingId, serviceTitle, open, onOpenChange }: Rev
                 <button
                   key={star}
                   type="button"
-                  className="focus:outline-none transition-transform hover:scale-110"
+                  className="transition-transform hover:scale-110 focus:outline-none"
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
                   onClick={() => setRating(star)}
                 >
-                  <Star 
-                    className={`w-8 h-8 ${
-                      (hoverRating || rating) >= star 
-                        ? 'fill-yellow-400 text-yellow-400' 
+                  <Star
+                    className={`h-8 w-8 ${
+                      (hoverRating || rating) >= star
+                        ? 'fill-yellow-400 text-yellow-400'
                         : 'text-gray-300'
-                    }`} 
+                    }`}
                   />
                 </button>
               ))}
             </div>
-            <span className="text-sm font-medium text-gray-500 h-5">
-              {hoverRating > 0 ? (
-                ['Péssimo', 'Ruim', 'Regular', 'Bom', 'Excelente'][hoverRating - 1]
-              ) : rating > 0 ? (
-                ['Péssimo', 'Ruim', 'Regular', 'Bom', 'Excelente'][rating - 1]
-              ) : ''}
+            <span className="h-5 text-sm font-medium text-gray-500">
+              {hoverRating > 0
+                ? ['Péssimo', 'Ruim', 'Regular', 'Bom', 'Excelente'][hoverRating - 1]
+                : rating > 0
+                  ? ['Péssimo', 'Ruim', 'Regular', 'Bom', 'Excelente'][rating - 1]
+                  : ''}
             </span>
           </div>
 
@@ -95,13 +98,15 @@ export function ReviewModal({ bookingId, serviceTitle, open, onOpenChange }: Rev
               placeholder="Conte mais sobre sua experiência..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="resize-none min-h-[100px]"
+              className="min-h-[100px] resize-none"
             />
           </div>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancelar
+          </Button>
           <Button onClick={handleSubmit} disabled={isLoading}>
             {isLoading ? 'Enviando...' : 'Enviar Avaliação'}
           </Button>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts';
 
 export function useVerificationModal(onOpenChange: (open: boolean) => void) {
   const [docFile, setDocFile] = useState<File | null>(null);

@@ -17,6 +17,7 @@ import servicesRoutes from '@modules/services/services.routes';
 import bookingsRoutes from '@modules/bookings/bookings.routes';
 import homeRoutes from '@modules/home/home.routes';
 import reportsRoutes from '@modules/reports/reports.routes';
+import categoriesRoutes from '@modules/categories/categories.routes';
 
 const app: Application = express();
 
@@ -24,7 +25,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
-  'http://localhost:5176'
+  'http://localhost:5176',
 ];
 
 // Security middleware
@@ -34,7 +35,7 @@ app.use(
     origin: allowedOrigins, // Permite EXPLICITAMENTE o seu frontend Vite
     credentials: true, // Permite cookies/tokens se precisar no futuro
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 
@@ -64,6 +65,7 @@ app.use(`/api/${env.API_VERSION}/services`, servicesRoutes);
 app.use(`/api/${env.API_VERSION}/bookings`, bookingsRoutes);
 app.use(`/api/${env.API_VERSION}/home`, homeRoutes);
 app.use(`/api/${env.API_VERSION}/reports`, reportsRoutes);
+app.use(`/api/${env.API_VERSION}/categories`, categoriesRoutes);
 
 // Global error handler (must be last)
 app.use(errorHandler);
