@@ -63,6 +63,6 @@ npx expo start
 
 Acompanhe o planejamento e progresso do projeto: Board Agendei no Trello
 
-## Desenvolvido por
+### Desenvolvido por:
 Acácio de Oliveira Lacerda Neto
 Trabalho de Conclusão de Curso - Engenharia de Software - 2025
