@@ -16,7 +16,8 @@ Este repositório opera sob a arquitetura de **Monorepo**, centralizando o códi
 - **Banco de Dados:** PostgreSQL (Prisma ORM)
 - **Estilização:** TailwindCSS / NativeWind
 - **Qualidade:** ESLint, Prettier, Husky, Vitest, Playwright
-- **Infraestrutura:** Docker, Render, Vercel
+- **Infraestrutura:** Docker, Render, Vercel*
+  > *(\*Nota: O ambiente de produção foi desativado temporariamente para evitar a latência de "Cold Start" característica dos serviços gratuitos, garantindo fluidez durante a apresentação da defesa.)*
 
 ## Funcionalidades Chave
 
@@ -61,7 +62,8 @@ npx expo start
 
 ## Gestão
 
-Acompanhe o planejamento e progresso do projeto: [Board Agendei no Trello](https://trello.com/invite/b/6923691dc80ae47b7f0729f8/ATTI39f8a221bb69fd07e5cafddd97ac5004A6DA3F14/agendai)
+Acompanhe o planejamento e progresso do projeto: 
+[Board Agendei no Trello](https://trello.com/invite/b/6923691dc80ae47b7f0729f8/ATTI39f8a221bb69fd07e5cafddd97ac5004A6DA3F14/agendai)
 
 ### Desenvolvido por:
 Acácio de Oliveira Lacerda Neto
