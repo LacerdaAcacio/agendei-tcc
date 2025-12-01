@@ -47,8 +47,8 @@ Algoritmo robusto para cálculo de horários livres.
 
 1.  **Clone o repositório**
     ```bash
-    git clone https://github.com/seu-usuario/agendei-backend.git
-    cd agendei-backend
+    git clone https://github.com/LacerdaAcacio/agendei-tcc.git
+    cd backend
     ```
 
 2.  **Instale as dependências**

@@ -28,6 +28,12 @@ Utilização do **React Query** para gerenciamento de cache, revalidação autom
 ## Instalação
 
 ```bash
+# Clonar repositório
+git clone https://github.com/LacerdaAcacio/agendei-tcc.git
+
+# Entrar na pasta
+cd web
+
 # Instalar dependências
 npm install
 

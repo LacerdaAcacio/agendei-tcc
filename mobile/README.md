@@ -29,6 +29,13 @@ Integração nativa com **WhatsApp** para comunicação direta entre prestadores
 2. **Execução:**
 
 ```bash
+
+# Clonar repositório
+git clone https://github.com/LacerdaAcacio/agendei-tcc.git
+
+# Entrar na pasta
+cd mobile
+
 # Instalar dependências
 npm install
 

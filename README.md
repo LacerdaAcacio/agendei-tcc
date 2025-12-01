@@ -61,8 +61,9 @@ npx expo start
 
 ## Gestão
 
-Acompanhe o planejamento e progresso do projeto: Board Agendei no Trello
+Acompanhe o planejamento e progresso do projeto: [Board Agendei no Trello](https://trello.com/invite/b/6923691dc80ae47b7f0729f8/ATTI39f8a221bb69fd07e5cafddd97ac5004A6DA3F14/agendai)
 
 ### Desenvolvido por:
 Acácio de Oliveira Lacerda Neto
+
 Trabalho de Conclusão de Curso - Engenharia de Software - 2025
