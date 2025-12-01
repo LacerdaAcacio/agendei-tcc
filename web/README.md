@@ -75,3 +75,20 @@ npx playwright show-report
 
 Acompanhe o progresso do projeto no Trello:
 [Board Agendei](https://trello.com/invite/b/6923691dc80ae47b7f0729f8/ATTI39f8a221bb69fd07e5cafddd97ac5004A6DA3F14/agendai)
+
+## Funcionalidades Chave
+
+### Optimistic UI
+Implementação de feedback visual instantâneo para ações de usuário (ex: favoritar serviços), revertendo o estado apenas em caso de falha na requisição, proporcionando uma experiência de uso fluida.
+
+### Integrações
+- **BrasilAPI:** Autocompletar e validação de endereços via CEP.
+- **OpenStreetMap:** Renderização de mapas e geolocalização para descoberta de serviços.
+
+### Design System
+- **Dark Mode:** Suporte nativo a temas claro e escuro via Tailwind.
+- **i18n:** Internacionalização preparada para escalabilidade (PT, EN, ES).
+
+---
+
+**Desenvolvido por Acácio de Oliveira Lacerda Neto**
